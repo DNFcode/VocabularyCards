@@ -1,16 +1,27 @@
+const webpack = require('webpack')
+
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: [
+    "react-hot-loader/patch",
+    "./src/index.tsx",
+  ],
   output: {
       filename: "bundle.js",
       path: __dirname + "/build"
   },
 
-  // Enable sourcemaps for debugging webpack's output.
   devtool: "source-map",
 
   resolve: {
-      // Add '.ts' and '.tsx' as resolvable extensions.
       extensions: [".ts", ".tsx", ".js", ".json"]
+  },
+
+  devServer: {
+    host: "0.0.0.0",
+    publicPath: "/",
+    historyApiFallback: true,
+    hot: true,
+    hotOnly: true,
   },
 
   module: {
@@ -18,14 +29,18 @@ module.exports = {
         {
           test: /\.svg$/,
           use: [
-            // 'awesome-typescript-loader',
             'svgr/webpack',
           ],
         },
 
-        { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+        { test: /\.tsx?$/, use: ['react-hot-loader/webpack', "awesome-typescript-loader"]},
 
         { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
       ]
   },
+
+  plugins: [
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+],
 };

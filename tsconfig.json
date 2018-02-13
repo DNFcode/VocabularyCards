@@ -22,6 +22,16 @@
     "suppressImplicitAnyIndexErrors": true,
     "target": "es2016"
   },
+  "awesomeTypescriptLoaderOptions": {
+    "useBabel": true,
+    "babelOptions": {
+        "babelrc": false,
+        "plugins": [
+          "emotion"
+        ]
+    },
+    "babelCore": "@babel/core",
+  },
   "exclude": [
     "dist",
     "node_modules",
