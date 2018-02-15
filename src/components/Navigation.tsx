@@ -12,12 +12,13 @@ type Props = {
 }
 
 const Root = styled("nav")`
-  background: #756c83;
+  background: ${props => props.theme.primaryColor};
   height: 50px;
   box-shadow: 0 2px 10px 4px #b7b7b7;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  overflow: hidden;
 `
 
 const Navigation: React.SFC<Props> = ({ className }) => (
