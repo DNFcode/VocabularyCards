@@ -1,19 +1,16 @@
-const webpack = require('webpack')
+const webpack = require("webpack")
 
 module.exports = {
-  entry: [
-    "react-hot-loader/patch",
-    "./src/index.tsx",
-  ],
+  entry: ["react-hot-loader/patch", "./src/index.tsx"],
   output: {
-      filename: "bundle.js",
-      path: __dirname + "/build"
+    filename: "bundle.js",
+    path: __dirname + "/build"
   },
 
   devtool: "source-map",
 
   resolve: {
-      extensions: [".ts", ".tsx", ".js", ".json"]
+    extensions: [".ts", ".tsx", ".js", ".json"]
   },
 
   devServer: {
@@ -21,26 +18,27 @@ module.exports = {
     publicPath: "/",
     historyApiFallback: true,
     hot: true,
-    hotOnly: true,
+    hotOnly: true
   },
 
   module: {
-      rules: [
-        {
-          test: /\.svg$/,
-          use: [
-            'svgr/webpack',
-          ],
-        },
+    rules: [
+      {
+        test: /\.svg$/,
+        use: ["svgr/webpack"]
+      },
 
-        { test: /\.tsx?$/, use: ['react-hot-loader/webpack', "awesome-typescript-loader"]},
+      {
+        test: /\.tsx?$/,
+        use: ["react-hot-loader/webpack", "awesome-typescript-loader"]
+      },
 
-        { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
-      ]
+      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+    ]
   },
 
   plugins: [
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-],
-};
+    new webpack.HotModuleReplacementPlugin()
+  ]
+}

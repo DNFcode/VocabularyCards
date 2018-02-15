@@ -1,14 +1,13 @@
-import * as React from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
-import styled, { injectGlobal } from 'react-emotion'
+import * as React from "react"
+import { BrowserRouter, Route } from "react-router-dom"
+import styled, { injectGlobal } from "react-emotion"
 
-import CardsPage from './components/CardsPage'
-import Navigation from './components/Navigation'
-import StatsPage from './components/StatsPage';
-import SettingsPage from './components/SettingsPage';
-import EditPage from './components/EditPage';
+import CardsPage from "./components/CardsPage"
+import Navigation from "./components/Navigation"
+import StatsPage from "./components/StatsPage"
+import SettingsPage from "./components/SettingsPage"
+import EditPage from "./components/EditPage"
 
-// tslint:disable-next-line:no-unused-expression
 injectGlobal`
   body {
     margin: 0;
@@ -16,7 +15,7 @@ injectGlobal`
   }
 `
 
-const Container = styled('div')`
+const Container = styled("div")`
   background: white;
 `
 

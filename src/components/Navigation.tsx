@@ -1,18 +1,18 @@
-import * as React from 'react'
-import styled from 'react-emotion'
+import * as React from "react"
+import styled from "react-emotion"
 
-import NavIcon from './NavIcon'
-import BookIcon from '../icons/book.svg'
-import ChartIcon from '../icons/chart-bar.svg'
-import CogsIcon from '../icons/cogs.svg'
-import EditIcon from '../icons/edit.svg'
+import NavIcon from "./NavIcon"
+import BookIcon from "../icons/book.svg"
+import ChartIcon from "../icons/chart-bar.svg"
+import CogsIcon from "../icons/cogs.svg"
+import EditIcon from "../icons/edit.svg"
 
 type Props = {
-  className?: string,
+  className?: string
 }
 
-const Root = styled('nav')`
-  background: #756C83;
+const Root = styled("nav")`
+  background: #756c83;
   height: 50px;
   box-shadow: 0 2px 10px 4px #b7b7b7;
   display: flex;

@@ -1,11 +1,11 @@
-import * as React from 'react'
-import styled, { css } from 'react-emotion'
-import { NavLink } from 'react-router-dom'
+import * as React from "react"
+import styled, { css } from "react-emotion"
+import { NavLink } from "react-router-dom"
 
 type NavIconProps = {
-  to: string,
-  title: string,
-  Icon: React.SFC<{className: string}>
+  to: string
+  title: string
+  Icon: React.SFC<{ className: string }>
 }
 
 const iconClass = css`
