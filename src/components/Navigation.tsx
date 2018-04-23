@@ -1,19 +1,20 @@
 import * as React from "react"
 import styled from "react-emotion"
 
+import theme from "../theme"
 import NavIcon from "./NavIcon"
 import BookIcon from "../icons/book.svg"
 import ChartIcon from "../icons/chart-bar.svg"
 import CogsIcon from "../icons/cogs.svg"
-import EditIcon from "../icons/edit.svg"
+import LearnIcon from "../icons/graduation-cap.svg"
 
 type Props = {
   className?: string
+  location: any
 }
 
 const Root = styled("nav")`
-  background: ${props => props.theme.primaryColor};
-  height: 50px;
+  background: ${theme.primaryColor};
   box-shadow: 0 2px 10px 4px #b7b7b7;
   display: flex;
   justify-content: space-around;
@@ -21,13 +22,19 @@ const Root = styled("nav")`
   overflow: hidden;
 `
 
-const Navigation: React.SFC<Props> = ({ className }) => (
-  <Root className={className}>
-    <NavIcon to="/cards" title="Cards" Icon={BookIcon} />
-    <NavIcon to="/stats" title="Analytics" Icon={ChartIcon} />
-    <NavIcon to="/settings" title="Settings" Icon={CogsIcon} />
-    <NavIcon to="/edit" title="Edit" Icon={EditIcon} />
-  </Root>
-)
+export default class Navigation extends React.Component<Props> {
+  shouldComponentUpdate(nextProps: Props) {
+    return nextProps.location !== this.props.location
+  }
 
-export default Navigation
+  render() {
+    return (
+      <Root className={this.props.className}>
+        <NavIcon to="/cards" title="Learn" Icon={LearnIcon} />
+        <NavIcon to="/glossary" title="Glossary" Icon={BookIcon} />
+        <NavIcon to="/stats" title="Analytics" Icon={ChartIcon} />
+        <NavIcon to="/settings" title="Settings" Icon={CogsIcon} />
+      </Root>
+    )
+  }
+}

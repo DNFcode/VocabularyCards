@@ -1,13 +1,19 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
+import { Provider } from "react-redux"
 
 import { AppContainer } from "react-hot-loader"
 import App from "./App"
+import { initStore } from "./redux/store"
+
+const store = initStore()
 
 const render = (Component: typeof App) => {
   ReactDOM.render(
     <AppContainer>
-      <Component />
+      <Provider store={store}>
+        <Component />
+      </Provider>
     </AppContainer>,
     document.getElementById("react")
   )

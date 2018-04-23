@@ -20,20 +20,20 @@
     "strict": true,
     "pretty": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es2016"
+    "target": "es2016",
+    "baseUrl": ".",
+    "paths": {
+      "redux": ["typings/redux/index.d.ts"],
+      "react-redux": ["typings/react-redux.d.ts"]
+    }
   },
   "awesomeTypescriptLoaderOptions": {
     "useBabel": true,
     "babelOptions": {
-        "babelrc": false,
-        "plugins": [
-          "emotion"
-        ]
+      "babelrc": false,
+      "plugins": ["emotion", "react-hot-loader/babel"]
     },
-    "babelCore": "@babel/core",
+    "babelCore": "@babel/core"
   },
-  "exclude": [
-    "dist",
-    "node_modules",
-  ],
+  "exclude": ["dist", "node_modules"]
 }

@@ -1,14 +1,17 @@
 import * as React from "react"
-import styled from "react-emotion";
+import styled from "react-emotion"
 
-import Cards from './Cards'
+import SwipeableCards from "./SwipeableCards"
 
-const Root = styled('div')`
+const Root = styled("div")`
   height: 100%;
   width: 100%;
-  position: fixed;
 `
 
-const Page: React.SFC = () => <Root><Cards/></Root>
+const Page: React.SFC = () => (
+  <Root>
+    <SwipeableCards />
+  </Root>
+)
 
 export default Page

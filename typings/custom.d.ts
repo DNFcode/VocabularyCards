@@ -1,6 +1,6 @@
 declare module "*.svg" {
-  import { SFC, ReactSVGElement } from 'react'
+  import { SFC, SVGAttributes } from "react"
 
-  const content: SFC<{className: string}>;
-  export default content;
+  const content: SFC<SVGAttributes<SVGElement>>
+  export default content
 }

@@ -1,13 +1,14 @@
-import React, { SFC, Component, CSSProperties } from 'react'
-import styled from 'react-emotion'
-import { Children } from 'react'
+import React, { SFC, Component, CSSProperties } from "react"
+import styled from "react-emotion"
+import { Children } from "react"
 
 export type Props = {
-  className?: string,
-  header?: string,
+  className?: string
+  header?: string
+  cardRef?: any
 }
 
-const Root = styled('div')`
+const Root = styled("div")`
   height: 100%;
   width: 100%;
   border: solid 1px lightgray;
@@ -16,7 +17,7 @@ const Root = styled('div')`
   overflow: hidden;
 `
 
-const CardHeader = styled('div')`
+const CardHeader = styled("div")`
   width: 100%;
   height: 33%;
   font-size: 22px;
@@ -26,7 +27,7 @@ const CardHeader = styled('div')`
   align-items: center;
 `
 
-const CardHeaderText = styled('div')`
+const CardHeaderText = styled("div")`
   color: #656565;
   font-weight: bold;
   font-size: 40px;
@@ -34,14 +35,14 @@ const CardHeaderText = styled('div')`
   font-family: sans-serif;
 `
 
-const CardContent = styled('div')`
+const CardContent = styled("div")`
   background: white;
   height: 100%;
 `
 
-const ForgotButton = styled('button')`
-  background: #F38181;
-  border: 1px solid #F38181;
+const ForgotButton = styled("button")`
+  background: #f38181;
+  border: 1px solid #f38181;
   border-radius: 10px;
   padding: 10px 0;
   width: 100px;
@@ -49,7 +50,7 @@ const ForgotButton = styled('button')`
   font-size: 14px;
 `
 
-const RememberButton = styled('button')`
+const RememberButton = styled("button")`
   background: #9bcdc5;
   border: 1px solid #9bcdc5;
   border-radius: 10px;
@@ -60,24 +61,15 @@ const RememberButton = styled('button')`
 `
 
 class Card extends Component<Props> {
-  shouldComponentUpdate(nextProps: Props) {
-    return this.props.className !== nextProps.className ||
-           this.props.header !== nextProps.header
-  }
-
   render() {
     return (
-      <Root className={this.props.className}>
+      <Root innerRef={this.props.cardRef} className={this.props.className}>
         <CardHeader>
           <CardHeaderText>{this.props.header}</CardHeaderText>
         </CardHeader>
         <CardContent>
-          <ForgotButton>
-            Forgot
-          </ForgotButton>
-          <RememberButton>
-            Remember
-          </RememberButton>
+          <ForgotButton>Forgot</ForgotButton>
+          <RememberButton>Remember</RememberButton>
         </CardContent>
       </Root>
     )

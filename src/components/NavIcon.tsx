@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom"
 type NavIconProps = {
   to: string
   title: string
-  Icon: React.SFC<{ className: string }>
+  Icon: React.SFC<{ className?: string }>
 }
 
 const ripple = keyframes`
@@ -51,6 +51,7 @@ const iconClass = css`
   margin: 2px 0;
 `
 
+// width animations are too slow.. FLIP animation perfaps?? Or houdini ;)?
 const linkClass = css`
   transition: min-width 0.15s linear;
   display: flex;
@@ -58,11 +59,13 @@ const linkClass = css`
   text-decoration: none;
   color: white;
   min-width: 30px;
+  will-change: min-width;
 
   div {
     transition: font-size 0.15s linear;
     text-align: center;
     font-size: 0;
+    will-change: font-size;
   }
 `
 
