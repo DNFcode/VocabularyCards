@@ -1,3 +1,5 @@
+Mobile view only for now.
+
 App: https://laughing-goldberg-ab460a.netlify.com/
 
 It's a good time to start looking into progressive web applications.
