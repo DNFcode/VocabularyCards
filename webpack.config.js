@@ -1,5 +1,7 @@
 const webpack = require("webpack")
 
+const devMode = process.env.NODE_ENV === "development"
+
 module.exports = {
   entry: "./src/index.tsx",
   output: {
@@ -8,7 +10,6 @@ module.exports = {
   },
 
   devtool: "source-map",
-  mode: "development",
 
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
@@ -26,17 +27,29 @@ module.exports = {
     rules: [
       {
         test: /\.svg$/,
-        use: ["svgr/webpack"],
+        use: "svgr/webpack",
       },
 
       {
         test: /\.tsx?$/,
-        use: ["awesome-typescript-loader"],
+        use: {
+          loader: "awesome-typescript-loader",
+          options: {
+            useBabel: true,
+            babelOptions: {
+              babelrc: false,
+              plugins: devMode
+                ? ["emotion", "react-hot-loader/babel"]
+                : ["emotion"],
+            },
+            babelCore: "@babel/core",
+          },
+        },
       },
 
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
     ],
   },
 
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: devMode ? [new webpack.HotModuleReplacementPlugin()] : [],
 }
