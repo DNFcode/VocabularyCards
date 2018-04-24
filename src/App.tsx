@@ -80,6 +80,7 @@ export default class App extends React.Component {
     return (
       <BrowserRouter>
         <>
+          <Redirect from="/" to="/glossary" />
           <Route
             path="(/cards|/stats|/settings|/glossary)"
             exact

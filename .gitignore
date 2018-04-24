@@ -1,4 +1,5 @@
 build/*
 !build/index.html
+!build/_redirects
 node_modules
 .vscode
