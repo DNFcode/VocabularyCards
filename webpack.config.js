@@ -21,6 +21,7 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     hotOnly: true,
+    index: "./build/index.html",
   },
 
   module: {
