@@ -2,9 +2,10 @@ import * as React from "react"
 import styled, { css } from "react-emotion"
 import { TimelineMax, TweenMax, Linear, Power3, Ease } from "gsap"
 
-import Card, { Props as CardProps } from "./Card"
+import Card from "./Card"
 import Swipeable, { Direction } from "./Swipeable"
 import { $Values } from "utility-types"
+import { State } from "../redux/store"
 
 const SwipeableContainer = styled(Swipeable)`
   height: 100%;
@@ -66,7 +67,22 @@ const animations = {
   },
 }
 
-export default class SwipeableCards extends React.Component {
+type CardData = {
+  remembered: boolean
+  title: string
+  description: string
+}
+
+type Props = {
+  prevCard?: CardData
+  mainCard?: CardData
+  nextCard?: CardData
+  hiddenCard?: CardData
+  onSwipeLeft?: () => any
+  onSwipeRight?: () => any
+}
+
+export default class SwipeableCards extends React.Component<Props> {
   cardsRefs: {
     prevCard?: React.RefObject<HTMLDivElement>
     mainCard?: React.RefObject<HTMLDivElement>
@@ -110,11 +126,41 @@ export default class SwipeableCards extends React.Component {
     return timeline
   }
 
+  killAnimations() {
+    this.dragLeft && this.dragLeft.kill()
+    this.dragRight && this.dragRight.kill()
+    this.slideLeft && this.slideLeft.kill()
+    this.slideRight && this.slideRight.kill()
+    this.slideDefault && this.slideDefault.kill()
+    this.dragLeft = undefined
+    this.dragRight = undefined
+    this.slideLeft = undefined
+    this.slideRight = undefined
+    this.slideDefault = undefined
+  }
+
   initAnimations() {
-    this.dragLeft = this.createAnimation(animations.left, Linear.easeNone)
-    this.dragRight = this.createAnimation(animations.right, Linear.easeNone)
-    this.slideLeft = this.createAnimation(animations.left, Power3.easeOut)
-    this.slideRight = this.createAnimation(animations.right, Power3.easeOut)
+    this.killAnimations()
+    if (
+      this.props.mainCard &&
+      this.cardsRefs.mainCard &&
+      this.cardsRefs.mainCard.current
+    ) {
+      this.dragLeft = this.createAnimation(animations.left, Linear.easeNone)
+      this.slideLeft = this.createAnimation(animations.left, Power3.easeOut)
+      this.props.onSwipeLeft &&
+        this.slideLeft.addCallback(this.props.onSwipeLeft, "+=0")
+    }
+    if (
+      this.props.prevCard &&
+      this.cardsRefs.prevCard &&
+      this.cardsRefs.prevCard.current
+    ) {
+      this.dragRight = this.createAnimation(animations.right, Linear.easeNone)
+      this.slideRight = this.createAnimation(animations.right, Power3.easeOut)
+      this.props.onSwipeRight &&
+        this.slideRight.addCallback(this.props.onSwipeRight, "+=0")
+    }
     this.slideDefault = this.createAnimation(animations.default, Power3.easeOut)
   }
 
@@ -127,7 +173,6 @@ export default class SwipeableCards extends React.Component {
   }
 
   handleTouchMove(direction: Direction, progress: number) {
-    console.log("move", progress)
     if (direction === Direction.LEFT) {
       this.dragLeft && this.dragLeft.progress(progress)
       this.dragRight && this.dragRight.progress(0)
@@ -138,7 +183,6 @@ export default class SwipeableCards extends React.Component {
   }
 
   handleTouchEnd(direction: Direction, progress: number) {
-    console.log("end", progress)
     if (progress > 0.5) {
       if (direction === Direction.LEFT) {
         this.slideLeft && this.slideLeft.invalidate().resume()
@@ -151,7 +195,6 @@ export default class SwipeableCards extends React.Component {
   }
 
   handleSwipe(direction: Direction) {
-    console.log("swipe")
     if (direction === Direction.LEFT) {
       this.slideLeft && this.slideLeft.invalidate().resume()
     } else {
@@ -167,7 +210,13 @@ export default class SwipeableCards extends React.Component {
     this.initAnimations()
   }
 
+  componentWillUnmount() {
+    this.killAnimations()
+  }
+
   render() {
+    const { prevCard, mainCard, nextCard, hiddenCard } = this.props
+
     return (
       <SwipeableContainer
         onTouchStart={this.handleTouchStart}
@@ -175,13 +224,38 @@ export default class SwipeableCards extends React.Component {
         onTouchEnd={this.handleTouchEnd}
         onSwipe={this.handleSwipe}
       >
-        <PrevCard cardRef={this.cardsRefs.prevCard} header="Previous card!" />
-        <MainCard
-          cardRef={this.cardsRefs.mainCard}
-          header="Vocabulary cards!"
-        />
-        <NextCard cardRef={this.cardsRefs.nextCard} header="Next card!" />
-        <HiddenCard cardRef={this.cardsRefs.hiddenCard} header="Hidden card!" />
+        {!!prevCard && (
+          <PrevCard
+            key={`prev-${prevCard.title}`}
+            cardRef={this.cardsRefs.prevCard}
+            title={prevCard.title}
+            description={prevCard.description}
+          />
+        )}
+        {!!mainCard && (
+          <MainCard
+            key={`prev-${mainCard.title}`}
+            cardRef={this.cardsRefs.mainCard}
+            title={mainCard.title}
+            description={mainCard.description}
+          />
+        )}
+        {!!nextCard && (
+          <NextCard
+            key={`prev-${nextCard.title}`}
+            cardRef={this.cardsRefs.nextCard}
+            title={nextCard.title}
+            description={nextCard.description}
+          />
+        )}
+        {!!hiddenCard && (
+          <HiddenCard
+            key={`prev-${hiddenCard.title}`}
+            cardRef={this.cardsRefs.hiddenCard}
+            title={hiddenCard.title}
+            description={hiddenCard.description}
+          />
+        )}
       </SwipeableContainer>
     )
   }

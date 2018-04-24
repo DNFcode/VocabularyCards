@@ -2,12 +2,6 @@ import React, { SFC, Component, CSSProperties } from "react"
 import styled from "react-emotion"
 import { Children } from "react"
 
-export type Props = {
-  className?: string
-  header?: string
-  cardRef?: any
-}
-
 const Root = styled("div")`
   height: 100%;
   width: 100%;
@@ -25,6 +19,7 @@ const CardHeader = styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-transform: capitalize;
 `
 
 const CardHeaderText = styled("div")`
@@ -38,6 +33,10 @@ const CardHeaderText = styled("div")`
 const CardContent = styled("div")`
   background: white;
   height: 100%;
+  padding: 20px;
+  text-align: center;
+  font-size: 20px;
+  text-transform: capitalize;
 `
 
 const ForgotButton = styled("button")`
@@ -60,16 +59,25 @@ const RememberButton = styled("button")`
   font-size: 14px;
 `
 
+// use forwardRef??
+export type Props = {
+  className?: string
+  title?: string
+  description?: string
+  cardRef?: any
+}
+
 class Card extends Component<Props> {
   render() {
     return (
       <Root innerRef={this.props.cardRef} className={this.props.className}>
         <CardHeader>
-          <CardHeaderText>{this.props.header}</CardHeaderText>
+          <CardHeaderText>{this.props.title}</CardHeaderText>
         </CardHeader>
         <CardContent>
-          <ForgotButton>Forgot</ForgotButton>
-          <RememberButton>Remember</RememberButton>
+          {this.props.description}
+          {/* <ForgotButton>Forgot</ForgotButton>
+          <RememberButton>Remember</RememberButton> */}
         </CardContent>
       </Root>
     )

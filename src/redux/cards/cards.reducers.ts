@@ -1,7 +1,7 @@
 import { Reducer } from "redux"
 import { ActionType, CardsActions, actions } from "./cards.actions"
 
-type Card = {
+export type Card = {
   id: string
   title: string
   description: string
