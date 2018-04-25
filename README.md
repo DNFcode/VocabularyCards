@@ -8,6 +8,8 @@ What's working:
 * Pages transition animations
 * Swipeable cards 
 * Typescripted redux state and actions
+* Works offline (I don't save data to indexedDB yet though)
+* Installable to home screen
 
 It's a good time to start looking into progressive web applications.
 
