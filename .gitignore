@@ -2,5 +2,6 @@ build/*
 !build/index.html
 !build/_redirects
 !build/manifest.json
+!build/icon.png
 node_modules
 .vscode

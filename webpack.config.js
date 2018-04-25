@@ -79,7 +79,7 @@ module.exports = {
           },
           minify: true,
           navigateFallback: "/index.html",
-          staticFileGlobs: ["build/index.html"],
+          staticFileGlobs: ["build/index.html", "build/icon.png"],
           stripPrefix: "build",
           mergeStaticsConfig: true,
           staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
