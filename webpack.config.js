@@ -10,6 +10,7 @@ module.exports = {
   output: {
     filename: "bundle.js",
     path: path.join(__dirname, "build"),
+    publicPath: "/",
   },
 
   devtool: "source-map",
@@ -76,8 +77,11 @@ module.exports = {
             }
             console.log(message)
           },
-          minify: true, // minify and uglify the script
+          minify: true,
           navigateFallback: "/index.html",
+          staticFileGlobs: ["build/index.html"],
+          stripPrefix: "build",
+          mergeStaticsConfig: true,
           staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
         }),
       ],
