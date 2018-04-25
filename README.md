@@ -2,6 +2,13 @@ Mobile view only for now.
 
 App: https://laughing-goldberg-ab460a.netlify.com/
 
+What's working:
+
+* Cards addition/removal/editing
+* Pages transition animations
+* Swipeable cards 
+* Typescripted redux state and actions
+
 It's a good time to start looking into progressive web applications.
 
 ## App description
