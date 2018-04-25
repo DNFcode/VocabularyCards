@@ -1,0 +1,7 @@
+{
+  "name": "Vocabulary Cards",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#4AA6B5",
+  "background_color": "#ffffff"
+}

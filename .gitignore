@@ -1,5 +1,6 @@
 build/*
 !build/index.html
 !build/_redirects
+!build/manifest.json
 node_modules
 .vscode
