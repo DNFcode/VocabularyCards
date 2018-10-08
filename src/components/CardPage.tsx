@@ -2,7 +2,7 @@ import * as React from "react"
 import { connect } from "react-redux"
 import styled, { css } from "react-emotion"
 import { keyframes } from "emotion"
-import { RouteComponentProps } from "react-router-dom"
+import { withRouter, RouteComponentProps } from "react-router"
 
 import { State } from "../redux/store"
 import { actions } from "../redux/cards/cards.actions"
@@ -110,9 +110,11 @@ class CardPage extends React.Component<Props> {
   }
 }
 
-export default connect(
-  (state: State, props: Props) => ({
-    card: state.cards[props.match.params.id],
-  }),
-  actions
-)(CardPage)
+export default withRouter(
+  connect(
+    (state: State, props: Props) => ({
+      card: state.cards[props.match.params.id],
+    }),
+    actions
+  )(CardPage)
+)

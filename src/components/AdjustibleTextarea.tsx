@@ -34,7 +34,7 @@ export default class AdjustibleTextarea extends React.Component<Props> {
   }
 
   componentDidMount() {
-    this.resizeTextarea()
+    // this.resizeTextarea()
   }
 
   componentDidUpdate() {

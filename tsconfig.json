@@ -25,7 +25,12 @@
     "paths": {
       "redux": ["typings/redux/index.d.ts"],
       "react-redux": ["typings/react-redux.d.ts"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ]
   },
   "exclude": ["dist", "node_modules"]
 }

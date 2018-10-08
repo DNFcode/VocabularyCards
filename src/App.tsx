@@ -1,17 +1,21 @@
 import * as React from "react"
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom"
 import styled, { injectGlobal, keyframes, css } from "react-emotion"
-import { CSSTransition, Transition } from "react-transition-group"
+import {
+  CSSTransition,
+  Transition,
+  TransitionGroup,
+} from "react-transition-group"
 
-// import routes, { Position } from "./routes"
+import { getCardPageAnimation, getTopPageAnimation } from "./animations"
 import Navigation from "./components/Navigation"
-import TopNavigaton from "./components/TopNavigaton"
 import CardsPage from "./components/CardsPage"
 import StatsPage from "./components/StatsPage"
 import SettingsPage from "./components/SettingsPage"
 import GlossaryPage from "./components/GlossaryPage"
 import NewCardPage from "./components/NewCardPage"
 import CardPage from "./components/CardPage"
+import AnimatedRoute from "./components/AnimatedRoute"
 
 injectGlobal`
   body {
@@ -27,7 +31,7 @@ const Root = styled("div")`
   position: fixed;
   overflow: scroll;
   width: 100%;
-  height: 100%;
+  height: ${window.innerHeight}px;
   display: flex;
   flex-direction: column;
 `
@@ -37,126 +41,67 @@ const Content = styled("div")`
   overflow: scroll;
   box-sizing: border-box;
   flex-grow: 1;
+  position: relative;
+
+  > * {
+    position: absolute !important;
+    height: 100%;
+    width: 100%;
+    will-change: transform;
+  }
 `
 
 const BottomNavigation = styled(Navigation)`
   position: relative;
   height: 56px;
   width: 100%;
+  flex-shrink: 0;
+  z-index: 100;
 `
 
-const rightSlide = keyframes`
-  0% {
-    transform: translateX(100%);
-  }
-
-  100% {
-    transform: translateX(0%);
-  }
-`
-
-const slideFromRight = css`
-  animation: ${rightSlide} 0.3s 0.1s backwards;
-  will-change: transform;
-`
-
-const slideToRight = css`
-  animation: ${rightSlide} reverse 0.3s 0.1s;
-  will-change: transform;
-`
-
-const RouterContainer = styled("div")`
-  position: absolute;
-`
-
-let prevLocation: any
-
-let cache: any
-
-// REFACTORING IN PROGRESS
 export default class App extends React.Component {
   // move routes setup to routes.js
   render() {
     return (
       <BrowserRouter>
-        <>
-          <Redirect from="/" to="/glossary" />
-          <Route
-            path="(/cards|/stats|/settings|/glossary)"
-            exact
-            children={({ match, history, ...props }) => {
-              const transitionLocation = match ? history.location : prevLocation
-
-              return (
-                <Transition
-                  timeout={500}
-                  mountOnEnter={true}
-                  unmountOnExit={true}
-                  in={!!match}
-                >
-                  <Root>
-                    <Content>
-                      <Route path="/cards" component={CardsPage} />
-                      <Route path="/stats" component={StatsPage} />
-                      <Route path="/settings" component={SettingsPage} />
-                      <Route path="/glossary" component={GlossaryPage} />
-                    </Content>
-                    <BottomNavigation location={transitionLocation} />
-                  </Root>
-                </Transition>
-              )
-            }}
-          />
-          <Route
-            path="(/glossary/new|/glossary/card/.*)"
-            exact
-            children={({ match, history, ...props }) => {
-              const transitionLocation = match ? history.location : prevLocation
-
-              prevLocation = history.location
-
-              return (
-                <CSSTransition
-                  classNames={{
-                    appear: slideFromRight,
-                    enter: slideFromRight,
-                    exit: slideToRight,
-                  }}
-                  timeout={10000}
-                  mountOnEnter={true}
-                  unmountOnExit={true}
-                  in={!!match}
-                  addEndListener={(node, done) => {
-                    node.addEventListener("animationend", done, false)
-                  }}
-                >
-                  {() => {
-                    cache = !match ? (
-                      cache
-                    ) : (
-                      <Root>
-                        <Content>
-                          <Route
-                            path="/glossary/new"
-                            component={NewCardPage}
-                            location={transitionLocation}
-                          />
-                          <Route
-                            path="/glossary/card/:id"
-                            component={CardPage}
-                            location={transitionLocation}
-                          />
-                        </Content>
-                      </Root>
-                    )
-
-                    return cache
-                  }}
-                </CSSTransition>
-              )
-            }}
-          />
-        </>
+        <Root>
+          <Content>
+            <Redirect from="/" to="/glossary" />
+            <AnimatedRoute
+              getRouteAnimation={getTopPageAnimation}
+              path="/cards"
+              component={CardsPage}
+            />
+            <AnimatedRoute
+              getRouteAnimation={getTopPageAnimation}
+              path="/stats"
+              component={StatsPage}
+            />
+            <AnimatedRoute
+              getRouteAnimation={getTopPageAnimation}
+              path="/settings"
+              component={SettingsPage}
+            />
+            <AnimatedRoute
+              getRouteAnimation={getTopPageAnimation}
+              path="/glossary"
+              component={GlossaryPage}
+            />
+            <AnimatedRoute
+              exact={true}
+              getRouteAnimation={getCardPageAnimation}
+              path="/glossary/new"
+              component={NewCardPage}
+            />
+            <AnimatedRoute
+              exact={true}
+              getRouteAnimation={getCardPageAnimation}
+              path="/glossary/card/:id"
+              component={CardPage}
+            />
+          </Content>
+          <BottomNavigation />
+        </Root>
       </BrowserRouter>
     )
   }

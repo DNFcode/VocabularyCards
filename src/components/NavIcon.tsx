@@ -38,44 +38,39 @@ const rippleEffect = css`
     left: 0;
     pointer-events: none;
     opacity: 0;
-    background-image: radial-gradient(circle, white 30%, transparent 32%);
+    background-image: radial-gradient(circle, #2fa0b8 30%, transparent 32%);
     background-repeat: no-repeat;
     background-position: 50%;
-    animation: ${ripple} 0.35s ease-out;
+    animation: ${ripple} 0.35s 20ms ease-out;
   }
 `
 
 const iconClass = css`
   display: block;
-  height: 20px;
+  height: 25px;
   margin: 2px 0;
 `
 
 // width animations are too slow.. FLIP animation perfaps?? Or houdini ;)?
 const linkClass = css`
-  transition: min-width 0.15s linear;
+  transition: color 0.15s 20ms linear;
   display: flex;
   flex-direction: column;
   text-decoration: none;
-  color: white;
-  min-width: 30px;
-  will-change: min-width;
+  color: #848484;
+  justify-content: center;
 
   div {
-    transition: font-size 0.15s linear;
     text-align: center;
-    font-size: 0;
+    font-size: 12px;
+    font-weight: bold;
     will-change: font-size;
   }
 `
 
 const activeLinkClass = css`
   ${rippleEffect};
-  min-width: 100px;
-
-  div {
-    font-size: 14px;
-  }
+  color: #2fa0b8;
 `
 
 const NavIcon: React.SFC<NavIconProps> = ({ to, title, Icon }) => (

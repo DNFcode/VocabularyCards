@@ -15,8 +15,9 @@ type State = {
 
 const Root = styled("div")`
   width: 100%;
-  height: 40px;
+  height: 56px;
   display: flex;
+  align-items: center;
 `
 
 const SearchInput = styled("input")`

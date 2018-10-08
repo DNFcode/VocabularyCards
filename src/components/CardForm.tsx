@@ -34,6 +34,7 @@ const TitleTextarea = styled(AdjustibleTextarea)`
   border: none;
   padding: 0;
   font-family: sans-serif;
+  overflow: hidden;
 `
 
 const DescriptionTextarea = styled("textarea")`

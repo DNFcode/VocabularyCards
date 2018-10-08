@@ -11,13 +11,11 @@ import { State } from "../redux/store"
 const SearchContainer = styled("div")`
   position: fixed;
   width: 100%;
-  padding: 20px;
   box-sizing: border-box;
 `
 
 const FloatingSearch = styled(Search)`
   background: white;
-  border-radius: 3px;
   box-shadow: 0 0 5px 0px #b7b7b7;
   overflow: hidden;
 `
@@ -57,6 +55,7 @@ const AddButton = styled(Link)`
 
 const Root = styled("div")`
   position: relative;
+  background-color: #f9f9f9;
 `
 
 const NoCardsMessage = styled("div")`
