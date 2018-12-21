@@ -1,8 +1,12 @@
 import * as React from "react"
 import styled, { css } from "react-emotion"
 import { Link } from "react-router-dom"
-
-import theme from "../theme"
+import {
+  DarkerBackgroundColor,
+  TextLightColor,
+  TextColor,
+  DangerColor,
+} from "../theme"
 import { Card } from "../types"
 
 type Props = {
@@ -10,49 +14,69 @@ type Props = {
   cards: Card[]
 }
 
-const Root = styled("div")`
-  width: 100%;
-`
+const Root = styled("div")({
+  width: "100%",
+})
 
-const Card = styled(Link)`
-  display: block;
-  text-decoration: none;
-  padding: 10px 20px;
-  background: white;
-  border-left: 4px solid #ff9800;
-  color: ${theme.darkTextColor};
-  & + & {
-    border-top: 1px solid #e0e0e0;
-  }
-`
+const Card = styled(Link)({
+  borderRadius: 5,
+  display: "block",
+  textDecoration: "none",
+  padding: 10,
+  background: DarkerBackgroundColor,
+  marginBottom: 10,
+})
 
-const CardWord = styled("div")`
-  font-weight: bold;
-  font-family: sans-serif;
-  margin-bottom: 5px;
-  text-transform: capitalize;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`
+const Dot = styled("div")({
+  height: 8,
+  width: 8,
+  borderRadius: "100%",
+  backgroundColor: DangerColor,
+  flexShrink: 0,
+})
 
-const CardDefinition = styled("div")`
-  font-family: sans-serif;
-  text-transform: capitalize;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  color: #777777;
-`
+const CardTop = styled("div")({
+  display: "flex",
+  alignItems: "center",
+})
+
+const CardTitle = styled("div")({
+  fontWeight: "bold",
+  textTransform: "capitalize",
+  color: TextColor,
+  marginLeft: 10,
+  marginRight: 10,
+  minWidth: 0,
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+})
+
+const CardProgress = styled("div")({
+  color: DangerColor,
+  fontSize: 12,
+  fontWeight: "bold",
+  marginLeft: "auto",
+})
+
+const CardDescription = styled("div")({
+  color: TextLightColor,
+  marginTop: 10,
+  marginLeft: 18,
+})
 
 export default class GlossaryCards extends React.Component<Props> {
   render() {
     return (
       <Root className={this.props.className}>
-        {this.props.cards.map(({ id, title, description }, index) => (
-          <Card to={`/glossary/card/${id}`} key={index}>
-            <CardWord>{title}</CardWord>
-            <CardDefinition>{description}</CardDefinition>
+        {this.props.cards.map(({ id, title, description }) => (
+          <Card to={`/glossary/card/${id}`} key={id}>
+            <CardTop>
+              <Dot />
+              <CardTitle>{title}</CardTitle>
+              <CardProgress>learned</CardProgress>
+            </CardTop>
+            <CardDescription>{description}</CardDescription>
           </Card>
         ))}
       </Root>

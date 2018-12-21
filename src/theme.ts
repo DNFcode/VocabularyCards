@@ -1,6 +1,7 @@
-export default {
-  primaryColor: "#4AA6B5",
-  darkTextColor: "#404040",
-  lightTextColor: "#777777",
-  baseBorderRadius: 3,
-}
+export const PrimaryColor = "#63BDCF"
+export const SecondaryColor = "#88D361"
+export const TextColor = "#707070"
+export const TextLightColor = "#8B8B8B"
+export const DangerColor = "#FDC272"
+export const LightBackgroundColor = "white"
+export const DarkerBackgroundColor = "#F7F7F7"

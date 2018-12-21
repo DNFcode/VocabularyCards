@@ -1,7 +1,7 @@
 import * as React from "react"
 import styled, { css } from "react-emotion"
 
-import theme from "../theme"
+import { PrimaryColor } from "../theme"
 import BackLink from "./BackLink"
 import AnimatedSeachIcon from "./AnimatedSearchIcon"
 import ArrowLeftIcon from "../icons/arrow-left.svg"
@@ -20,7 +20,7 @@ const Root =
   width: 100%;
   height: 56px;
   display: flex;
-  background-color: ${({ color }) => color || theme.primaryColor};
+  background-color: ${({ color }) => color || PrimaryColor};
   color: white;
   align-items: center;
   box-shadow: 0 -2px 10px 2px #06060661;

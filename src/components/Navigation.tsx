@@ -1,7 +1,6 @@
 import * as React from "react"
 import styled from "react-emotion"
 
-import theme from "../theme"
 import NavIcon from "./NavIcon"
 import BookIcon from "../icons/bx-book.svg"
 import ChartIcon from "../icons/bx-trending-up.svg"

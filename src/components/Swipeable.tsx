@@ -1,7 +1,6 @@
 import * as React from "react"
 import styled, { css } from "react-emotion"
 
-import theme from "../theme"
 import BackLink from "./BackLink"
 import AnimatedSeachIcon from "./AnimatedSearchIcon"
 import ArrowLeftIcon from "../icons/arrow-left.svg"
