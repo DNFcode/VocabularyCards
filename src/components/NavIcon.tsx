@@ -59,6 +59,7 @@ const linkClass = css`
   text-decoration: none;
   color: #848484;
   justify-content: center;
+  -webkit-tap-highlight-color: transparent;
 
   div {
     text-align: center;
@@ -70,7 +71,7 @@ const linkClass = css`
 
 const activeLinkClass = css`
   ${rippleEffect};
-  color: #2fa0b8;
+  color: #2fa0b8 !important;
 `
 
 const NavIcon: React.SFC<NavIconProps> = ({ to, title, Icon }) => (
