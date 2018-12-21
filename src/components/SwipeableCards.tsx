@@ -5,7 +5,6 @@ import { TimelineMax, TweenMax, Linear, Power3, Ease } from "gsap"
 import Card from "./Card"
 import Swipeable, { Direction } from "./Swipeable"
 import { $Values } from "utility-types"
-import { State } from "../redux/store"
 
 const SwipeableContainer = styled(Swipeable)`
   height: 100%;

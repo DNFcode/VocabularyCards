@@ -1,15 +1,13 @@
 import * as React from "react"
 import styled, { css } from "react-emotion"
-import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 
 import theme from "../theme"
-import SearchIcon from "../icons/search.svg"
-import { State } from "../redux/store"
+import { Card } from "../types"
 
 type Props = {
   className?: string
-  cards: Array<State["cards"][0]>
+  cards: Card[]
 }
 
 const Root = styled("div")`

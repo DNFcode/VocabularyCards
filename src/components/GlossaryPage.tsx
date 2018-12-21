@@ -5,13 +5,40 @@ import Search from "./Search"
 import DictionaryCards from "./DictionaryCards"
 import { keyframes } from "emotion"
 import { Link } from "react-router-dom"
-import { connect } from "react-redux"
-import { State } from "../redux/store"
+import { observer } from "mobx-react"
+import { AppStore, StoreConsumer, withStore } from "../store"
+
+@observer
+class GlossaryPage extends React.Component<{ store: AppStore }> {
+  render() {
+    return (
+      <Root>
+        <SearchContainer>
+          <FloatingSearch />
+        </SearchContainer>
+        <Cards>
+          {!this.props.store.cards.length && (
+            <NoCardsMessage>No cards yet :(</NoCardsMessage>
+          )}
+          {!!this.props.store.cards.length && (
+            <>
+              <CardsGroupTitle>Latest cards</CardsGroupTitle>
+              <CardsGroup cards={this.props.store.cards} />
+            </>
+          )}
+        </Cards>
+        <AddButton to="/glossary/new">+</AddButton>
+      </Root>
+    )
+  }
+}
+
+export default withStore(GlossaryPage)
 
 const SearchContainer = styled("div")`
-  position: fixed;
   width: 100%;
   box-sizing: border-box;
+  z-index: 1;
 `
 
 const FloatingSearch = styled(Search)`
@@ -21,8 +48,9 @@ const FloatingSearch = styled(Search)`
 `
 
 const Cards = styled("div")`
-  padding-top: 80px;
-  padding-bottom: 90px;
+  padding-bottom: 80px;
+  min-height: 0;
+  overflow: auto;
 `
 
 const CardsGroup = styled(DictionaryCards)`
@@ -42,7 +70,7 @@ const AddButton = styled(Link)`
   height: 40px;
   border-radius: 100%;
   position: fixed;
-  bottom: 70px;
+  bottom: 20px;
   right: 20px;
   background: #4aa6b5;
   text-align: center;
@@ -51,11 +79,14 @@ const AddButton = styled(Link)`
   font-size: 30px;
   text-decoration: none;
   font-family: sans-serif;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
 `
 
 const Root = styled("div")`
   position: relative;
   background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
 `
 
 const NoCardsMessage = styled("div")`
@@ -63,39 +94,3 @@ const NoCardsMessage = styled("div")`
   padding: 20px;
   font-weight: bold;
 `
-
-type Props = {
-  cards: State["cards"]
-}
-
-class GlossaryPage extends React.Component<Props, any> {
-  shouldComponentUpdate(nextProps: Props) {
-    return nextProps.cards !== this.props.cards
-  }
-
-  render() {
-    const cards = Object.values(this.props.cards)
-
-    return (
-      <>
-        <Root>
-          <SearchContainer>
-            <FloatingSearch />
-          </SearchContainer>
-          <Cards>
-            {!cards.length && <NoCardsMessage>No cards yet :(</NoCardsMessage>}
-            {!!cards.length && (
-              <>
-                <CardsGroupTitle>Latest cards</CardsGroupTitle>
-                <CardsGroup cards={cards} />
-              </>
-            )}
-          </Cards>
-        </Root>
-        <AddButton to="/glossary/new">+</AddButton>
-      </>
-    )
-  }
-}
-
-export default connect((state: State) => ({ cards: state.cards }))(GlossaryPage)

@@ -1,10 +1,9 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import { Provider } from "react-redux"
 
 import { AppContainer } from "react-hot-loader"
 import App from "./App"
-import { initStore } from "./redux/store"
+import { StoreProvider } from "./store"
 
 // if ("serviceWorker" in navigator) {
 //   navigator.serviceWorker
@@ -20,14 +19,13 @@ import { initStore } from "./redux/store"
 //     })
 // }
 
-const store = initStore()
-
 const render = (Component: typeof App) => {
+  React
   ReactDOM.render(
     <AppContainer>
-      <Provider store={store}>
+      <StoreProvider>
         <Component />
-      </Provider>
+      </StoreProvider>
     </AppContainer>,
     document.getElementById("react")
   )

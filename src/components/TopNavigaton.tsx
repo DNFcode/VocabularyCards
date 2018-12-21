@@ -13,7 +13,10 @@ type Props = {
   title: string
 }
 
-const Root = styled("div")`
+const Root =
+  styled("div") <
+  { color: string | undefined } >
+  `
   width: 100%;
   height: 56px;
   display: flex;

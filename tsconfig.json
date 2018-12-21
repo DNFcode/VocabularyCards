@@ -1,5 +1,4 @@
 {
-  "version": "2.0",
   "compilerOptions": {
     "allowJs": true,
     "allowUnreachableCode": false,
@@ -20,6 +19,7 @@
     "strict": true,
     "pretty": true,
     "suppressImplicitAnyIndexErrors": true,
+    "experimentalDecorators": true,
     "target": "es2016",
     "baseUrl": ".",
     "paths": {

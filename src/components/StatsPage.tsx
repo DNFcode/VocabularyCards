@@ -1,5 +1,14 @@
 import * as React from "react"
 
-const Page: React.SFC = () => <div>STATS PAGE</div>
+const availHeight = window.screen.availHeight
+const height = window.innerHeight
+
+const Page: React.SFC = () => (
+  <div>
+    <input type="text" />
+    <div>AvailHeight {availHeight}</div>
+    <div>Height {height}</div>
+  </div>
+)
 
 export default Page

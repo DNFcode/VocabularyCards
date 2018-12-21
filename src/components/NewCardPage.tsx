@@ -1,19 +1,19 @@
 import * as React from "react"
-import { connect } from "react-redux"
 import styled, { css } from "react-emotion"
-import { keyframes } from "emotion"
 import { withRouter, RouteComponentProps } from "react-router"
 
-import { actions } from "../redux/cards/cards.actions"
 import TopNavigation from "./TopNavigaton"
 import CardForm from "./CardForm"
 import CheckIcon from "../icons/check.svg"
+import { withStore, AppStore } from "../store"
+import { getUid } from "../utils"
 
 const Root = styled("div")`
   height: 100%;
   background: white;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
 `
 
 const newCardFormClass = css`
@@ -29,7 +29,7 @@ const Check = styled(CheckIcon)`
   display: block;
 `
 
-type Props = typeof actions & RouteComponentProps<any>
+type Props = { store: AppStore } & RouteComponentProps<any>
 
 class NewCardPage extends React.Component<Props> {
   formRef: React.RefObject<CardForm>
@@ -48,7 +48,14 @@ class NewCardPage extends React.Component<Props> {
 
   createCard(values: any) {
     if (values.title && values.description) {
-      this.props.createCard(values.title, values.description)
+      this.props.store.addCard({
+        id: getUid(),
+        title: values.title,
+        description: values.description,
+        continiousSuccessfullChecks: 0,
+        lastCheckDate: null,
+        created: new Date(),
+      })
       this.props.history.push("/glossary")
     }
   }
@@ -82,6 +89,4 @@ class NewCardPage extends React.Component<Props> {
   }
 }
 
-const component = connect(null, actions)(withRouter(NewCardPage))
-
-export default component
+export default withStore(withRouter(NewCardPage))

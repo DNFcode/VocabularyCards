@@ -8,11 +8,26 @@ const Root = styled("div")`
   background-color: lightgray;
 `
 
-class Page extends React.Component<{}, {}> {
-  componentDidMount() {}
+class Page extends React.Component<{}, { size: number }> {
+  state = {
+    size: window.innerHeight,
+  }
+
+  componentDidMount() {
+    window.addEventListener("resize", () => {
+      this.setState({
+        size: window.innerHeight,
+      })
+    })
+  }
 
   render() {
-    return <Root>To be implemeted</Root>
+    return (
+      <Root>
+        <input type="text" />
+        {this.state.size}
+      </Root>
+    )
   }
 }
 

@@ -1,21 +1,22 @@
 import * as React from "react"
-import { connect } from "react-redux"
 import styled, { css } from "react-emotion"
 import { keyframes } from "emotion"
 import { withRouter, RouteComponentProps } from "react-router"
 
-import { State } from "../redux/store"
-import { actions } from "../redux/cards/cards.actions"
 import TopNavigation from "./TopNavigaton"
 import CardForm from "./CardForm"
 import CheckIcon from "../icons/check.svg"
 import TrashIcon from "../icons/trash.svg"
+import { Card } from "../types"
+import { observer } from "mobx-react"
+import { withStore, AppStore } from "../store"
 
 const Root = styled("div")`
   height: 100%;
   background: white;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
 `
 
 const newCardFormClass = css`
@@ -44,12 +45,13 @@ const Icons = styled("div")`
 `
 
 type Props = {
-  card: State["cards"][0]
-} & RouteComponentProps<{ id: string }> &
-  typeof actions
+  store: AppStore
+} & RouteComponentProps<{ id: string }>
 
+@observer
 class CardPage extends React.Component<Props> {
   formRef: React.RefObject<CardForm>
+  cacheCard?: Card
 
   constructor(props: Props) {
     super(props)
@@ -60,24 +62,25 @@ class CardPage extends React.Component<Props> {
     this.submitForm = this.submitForm.bind(this)
   }
 
-  // required to cache component on animation back to glossary page
-  // I should find a better and clearer way to do that...
-  shouldComponentUpdate(nextProps: Props) {
-    return !!nextProps.card
-  }
-
   updateCard(values: any) {
+    const card = this.props.store.cards.find(
+      card => card.id === this.props.match.params.id
+    )!
     this.props.history.push("/glossary")
-    this.props.updateCard(
-      this.props.match.params.id,
-      values.title,
-      values.description
-    )
+    this.props.store.updateCard({
+      ...card,
+      title: values.title,
+      description: values.description,
+    })
   }
 
   removeCard() {
+    // this is a hack, I'm not sure how bad it is though
+    this.cacheCard = this.props.store.cards.find(
+      card => card.id === this.props.match.params.id
+    )
+    this.props.store.removeCard(this.props.match.params.id)
     this.props.history.push("/glossary")
-    this.props.removeCard(this.props.match.params.id)
   }
 
   submitForm() {
@@ -88,6 +91,12 @@ class CardPage extends React.Component<Props> {
   }
 
   render() {
+    const card =
+      this.cacheCard ||
+      this.props.store.cards.find(
+        card => card.id === this.props.match.params.id
+      )
+
     return (
       <Root>
         <TopNavigation title="In progress" color="#FF9800">
@@ -101,8 +110,8 @@ class CardPage extends React.Component<Props> {
           ref={this.formRef}
           onSubmit={this.updateCard}
           initialValues={{
-            title: this.props.card.title,
-            description: this.props.card.description,
+            title: card!.title,
+            description: card!.description,
           }}
         />
       </Root>
@@ -110,11 +119,4 @@ class CardPage extends React.Component<Props> {
   }
 }
 
-export default withRouter(
-  connect(
-    (state: State, props: Props) => ({
-      card: state.cards[props.match.params.id],
-    }),
-    actions
-  )(CardPage)
-)
+export default withStore(withRouter(CardPage))

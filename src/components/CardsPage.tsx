@@ -1,10 +1,8 @@
 import * as React from "react"
-import { connect } from "react-redux"
 import styled from "react-emotion"
 
-import { State as ReduxState } from "../redux/store"
-import { actions } from "../redux/cards/cards.actions"
 import SwipeableCards from "./SwipeableCards"
+import { withStore, AppStore } from "../store"
 
 const Root = styled("div")`
   height: 100%;
@@ -14,8 +12,8 @@ const Root = styled("div")`
 `
 
 type Props = {
-  cards: ReduxState["cards"]
-} & typeof actions
+  store: AppStore
+}
 
 type State = {
   currentCard: number
@@ -30,10 +28,10 @@ class CardsPage extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    this.cardsIds = Object.keys(this.props.cards)
+    this.cardsIds = Object.keys(this.props.store.cards)
 
     const cardsAnswers = {}
-    Object.keys(props.cards).forEach(key => {
+    Object.keys(props.store.cards).forEach(key => {
       cardsAnswers[key] = false
     })
 
@@ -52,7 +50,7 @@ class CardsPage extends React.Component<Props, State> {
 
     return id
       ? {
-          ...this.props.cards[id],
+          ...this.props.store.cards[id],
           remembered: this.state.cardsAnswers[id],
         }
       : undefined
@@ -92,9 +90,4 @@ class CardsPage extends React.Component<Props, State> {
   }
 }
 
-export default connect(
-  (state: ReduxState, props: Props) => ({
-    cards: state.cards,
-  }),
-  actions
-)(CardsPage)
+export default withStore(CardsPage)

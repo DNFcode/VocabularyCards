@@ -4,7 +4,7 @@ import { CSSTransition } from "react-transition-group"
 
 const rightSlide = keyframes`
   0% {
-    transform: translateY(-100%);
+    transform: translateY(-110%);
   }
 
   100% {
@@ -15,10 +15,12 @@ const rightSlide = keyframes`
 const opacityAnimation = keyframes`
   0% {
     opacity: 0;
+    transform: scale(0.95)
   }
 
   100% {
     opacity: 1;
+    transform: scale(1)
   }
 `
 
@@ -31,11 +33,11 @@ const backed = css`
 `
 
 const topFadeIn = css`
-  animation: ${opacityAnimation} 100ms 150ms ease-out;
+  animation: ${opacityAnimation} 150ms ease-out;
 `
 
 const topFadeOut = css`
-  animation: ${opacityAnimation} reverse 100ms 50ms ease-in;
+  animation: ${opacityAnimation} reverse 0ms ease-in;
 `
 
 const fadeIn = css`

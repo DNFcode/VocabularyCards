@@ -21,6 +21,7 @@ injectGlobal`
   body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
   }
 `
 
@@ -66,7 +67,6 @@ export default class App extends React.Component {
       <BrowserRouter>
         <Root>
           <Content>
-            <Redirect from="/" to="/glossary" />
             <AnimatedRoute
               getRouteAnimation={getTopPageAnimation}
               path="/cards"
