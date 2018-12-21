@@ -2,7 +2,7 @@ import * as React from "react"
 import styled from "react-emotion"
 
 import Search from "./Search"
-import DictionaryCards from "./DictionaryCards"
+import GlossaryCards from "./GlossaryCards"
 import { keyframes } from "emotion"
 import { Link } from "react-router-dom"
 import { observer } from "mobx-react"
@@ -53,7 +53,7 @@ const Cards = styled("div")`
   overflow: auto;
 `
 
-const CardsGroup = styled(DictionaryCards)`
+const CardsGroup = styled(GlossaryCards)`
   box-shadow: 0 1px 5px 0px #b7b7b7;
 `
 

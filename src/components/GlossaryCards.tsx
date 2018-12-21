@@ -45,7 +45,7 @@ const CardDefinition = styled("div")`
   color: #777777;
 `
 
-export default class DictionaryCards extends React.Component<Props> {
+export default class GlossaryCards extends React.Component<Props> {
   render() {
     return (
       <Root className={this.props.className}>
