@@ -7,6 +7,7 @@ import ChartIcon from "../icons/bx-trending-up.svg"
 import CogsIcon from "../icons/bx-cog.svg"
 import LearnIcon from "../icons/bxs-flask.svg"
 import PlusIcon from "../icons/plus.svg"
+import { Link } from "react-router-dom"
 
 type Props = {
   className?: string
@@ -27,7 +28,7 @@ const NavIcons = styled("div")({
   height: "100%",
 })
 
-const FloatingButton = styled("button")({
+const FloatingButton = styled(Link)({
   height: 56,
   width: 56,
   display: "flex",
@@ -43,6 +44,7 @@ const FloatingButton = styled("button")({
   boxShadow: "0 3px 8px rgba(0, 0, 0, 0.40)",
   background: "linear-gradient(135deg, #93de6c 0%,#54b3ef 100%)",
   outline: "none",
+  "-webkit-tap-highlight-color": "transparent",
 
   ":active": {
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.40)",
@@ -53,7 +55,7 @@ export default class Navigation extends React.Component<Props> {
   render() {
     return (
       <Root className={this.props.className}>
-        <FloatingButton>
+        <FloatingButton to="/glossary/new">
           <PlusIcon width={16} height={16} />
         </FloatingButton>
         <NavIcons>

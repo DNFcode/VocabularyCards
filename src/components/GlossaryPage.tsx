@@ -8,6 +8,7 @@ import { Link } from "react-router-dom"
 import { observer } from "mobx-react"
 import { AppStore, StoreConsumer, withStore } from "../store"
 import { LightBackgroundColor } from "../theme"
+import { ButtonGroup } from "./ButtonGroup"
 
 @observer
 class GlossaryPage extends React.Component<{ store: AppStore }> {
@@ -16,6 +17,20 @@ class GlossaryPage extends React.Component<{ store: AppStore }> {
       <Root>
         <SearchContainer>
           <FloatingSearch />
+          <ButtonGroup
+            buttons={[
+              {
+                label: "Learned",
+              },
+              {
+                label: "All",
+              },
+              {
+                label: "Ongoing",
+                active: true,
+              },
+            ]}
+          />
         </SearchContainer>
         <Cards>
           {!this.props.store.cards.length && (
