@@ -17,7 +17,7 @@ class GlossaryPage extends React.Component<{ store: AppStore }> {
       <Root>
         <SearchContainer>
           <FloatingSearch />
-          <ButtonGroup
+          <Filters
             buttons={[
               {
                 label: "Learned",
@@ -52,21 +52,28 @@ export default withStore(GlossaryPage)
 
 const SearchContainer = styled("div")`
   width: 100%;
-  box-sizing: border-box;
   z-index: 1;
+  box-shadow: 0 0 5px 0px #b7b7b7;
 `
+
+const Filters = styled(ButtonGroup)({
+  display: "flex",
+  justifyContent: "center",
+  marginBottom: 10,
+})
 
 const FloatingSearch = styled(Search)`
   background: white;
-  box-shadow: 0 0 5px 0px #b7b7b7;
+  padding: 10px;
   overflow: hidden;
+  box-sizing: border-box;
 `
 
 const Cards = styled("div")`
+  padding: 0 10px;
   padding-bottom: 80px;
   min-height: 0;
   overflow: auto;
-  padding: 10px;
 `
 
 const CardsGroup = styled(GlossaryCards)``

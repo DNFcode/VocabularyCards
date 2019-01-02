@@ -4,6 +4,7 @@ import styled, { css } from "react-emotion"
 import AnimatedSeachIcon from "./AnimatedSearchIcon"
 import SearchIcon from "../icons/search.svg"
 import CrossIcon from "../icons/cross.svg"
+import { DarkerBackgroundColor } from "../theme"
 
 type Props = {
   className?: string
@@ -18,25 +19,29 @@ const Root = styled("div")`
   height: 56px;
   display: flex;
   align-items: center;
+  position: relative;
 `
 
 const SearchInput = styled("input")`
-  height: 100%;
+  font-size: 16px;
+  padding: 10px 15px;
+  padding-left: 40px;
+  background: ${DarkerBackgroundColor};
+  border-radius: 5px;
   display: block;
   flex-grow: 1;
   border: none;
   margin: 0;
-  padding: 2px;
   box-sizing: border-box;
   font-size: 100%;
   outline: none;
 `
 
 const iconClass = css`
-  position: relative;
-  width: 20px;
-  height: 20px;
-  margin: 10px 15px;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  margin-left: 15px;
 `
 
 export default class Search extends React.Component<Props, State> {
