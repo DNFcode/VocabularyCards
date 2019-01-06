@@ -7,7 +7,7 @@ import { keyframes } from "emotion"
 import { Link } from "react-router-dom"
 import { observer } from "mobx-react"
 import { AppStore, StoreConsumer, withStore } from "../store"
-import { LightBackgroundColor } from "../theme"
+import { LightBackgroundColor, TextLightColor } from "../theme"
 import { ButtonGroup } from "./ButtonGroup"
 
 @observer
@@ -79,11 +79,12 @@ const Cards = styled("div")`
 const CardsGroup = styled(GlossaryCards)``
 
 const CardsGroupTitle = styled("div")`
-  padding: 15px 20px;
+  padding: 10px;
   font-family: sans-serif;
   font-size: 12px;
   font-weight: bold;
-  color: #656565;
+  text-transform: uppercase;
+  color: ${TextLightColor};
 `
 
 const Root = styled("div")`
