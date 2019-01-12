@@ -1,5 +1,6 @@
 import * as React from "react"
-import styled, { keyframes, css } from "react-emotion"
+import { keyframes, css, ClassNames } from "@emotion/core"
+import styled from "@emotion/styled"
 import { CSSTransition } from "react-transition-group"
 
 const rightSlide = keyframes`
@@ -24,37 +25,37 @@ const opacityAnimation = keyframes`
   }
 `
 
-const transparent = css`
-  opacity: 0;
-`
+const transparent = css({
+  opacity: 0,
+})
 
 const backed = css`
   z-index: -1;
 `
 
-const topFadeIn = css`
-  animation: ${opacityAnimation} 150ms ease-out;
-`
+const topFadeIn = css({
+  animation: `${opacityAnimation} 150ms ease-out`,
+})
 
-const topFadeOut = css`
-  animation: ${opacityAnimation} reverse 0ms ease-in;
-`
+const topFadeOut = css({
+  animation: `${opacityAnimation} reverse 0ms ease-in`,
+})
 
-const fadeIn = css`
-  animation: ${opacityAnimation} 0.27s 50ms ease-out;
-`
+const fadeIn = css({
+  animation: `${opacityAnimation} 0.27s 50ms backwards ease-out`,
+})
 
-const fadeOut = css`
-  animation: ${opacityAnimation} reverse 0.27s 50ms ease-in;
-`
+const fadeOut = css({
+  animation: `${opacityAnimation} reverse 0.27s 50ms ease-in`,
+})
 
-const slideFromRight = css`
-  animation: ${rightSlide} 0.3s 50ms backwards ease-out;
-`
+// const slideFromRight = css`
+//   animation: ${rightSlide} 0.3s 50ms backwards ease-out;
+// `
 
-const slideToRight = css`
-  animation: ${rightSlide} reverse 0.3s 50ms ease-in;
-`
+// const slideToRight = css`
+//   animation: ${rightSlide} reverse 0.3s 50ms ease-in;
+// `
 
 const Shadow = styled("div")`
   background: gray;
@@ -62,13 +63,13 @@ const Shadow = styled("div")`
   will-change: opacity;
 `
 
-export const getCardPageAnimation = (page: any) => [
+export const getCardPageAnimation = (page: any, css: any) => [
   <CSSTransition
     classNames={{
-      enterActive: fadeIn,
-      exitActive: fadeOut,
+      enterActive: css(fadeIn),
+      exitActive: css(fadeOut),
     }}
-    timeout={10000}
+    timeout={400}
     addEndListener={(node, done) => {
       node.addEventListener("animationend", done, false)
     }}
@@ -77,10 +78,10 @@ export const getCardPageAnimation = (page: any) => [
   </CSSTransition>,
   <CSSTransition
     classNames={{
-      enterActive: slideFromRight,
-      exitActive: slideToRight,
+      enterActive: css(fadeIn),
+      exitActive: css(fadeOut),
     }}
-    timeout={10000}
+    timeout={400}
     addEndListener={(node, done) => {
       node.addEventListener("animationend", done, false)
     }}
@@ -89,12 +90,12 @@ export const getCardPageAnimation = (page: any) => [
   </CSSTransition>,
 ]
 
-export const getTopPageAnimation = (page: any) => [
+export const getTopPageAnimation = (page: any, css: any) => [
   <CSSTransition
     classNames={{
-      enter: transparent,
-      enterActive: topFadeIn,
-      exitActive: topFadeOut,
+      enter: css(transparent),
+      enterActive: css(topFadeIn),
+      exitActive: css(topFadeOut),
     }}
     timeout={10000}
     addEndListener={(node, done) => {
@@ -103,4 +104,5 @@ export const getTopPageAnimation = (page: any) => [
   >
     {page}
   </CSSTransition>,
+  ,
 ]

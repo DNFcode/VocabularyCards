@@ -1,6 +1,7 @@
 import * as React from "react"
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom"
-import styled, { injectGlobal, keyframes, css } from "react-emotion"
+import { keyframes, css, Global } from "@emotion/core"
+import styled from "@emotion/styled"
 import {
   CSSTransition,
   Transition,
@@ -17,7 +18,7 @@ import NewCardPage from "./components/NewCardPage"
 import CardPage from "./components/CardPage"
 import AnimatedRoute from "./components/AnimatedRoute"
 
-injectGlobal`
+const globalCss = css`
   body {
     margin: 0;
     padding: 0;
@@ -64,45 +65,48 @@ export default class App extends React.Component {
   // move routes setup to routes.js
   render() {
     return (
-      <BrowserRouter>
-        <Root>
-          <Content>
-            <AnimatedRoute
-              getRouteAnimation={getTopPageAnimation}
-              path="/cards"
-              component={CardsPage}
-            />
-            <AnimatedRoute
-              getRouteAnimation={getTopPageAnimation}
-              path="/stats"
-              component={StatsPage}
-            />
-            <AnimatedRoute
-              getRouteAnimation={getTopPageAnimation}
-              path="/settings"
-              component={SettingsPage}
-            />
-            <AnimatedRoute
-              getRouteAnimation={getTopPageAnimation}
-              path="/glossary"
-              component={GlossaryPage}
-            />
+      <>
+        <Global styles={globalCss} />
+        <BrowserRouter>
+          <Root>
+            <Content>
+              <AnimatedRoute
+                getRouteAnimation={getTopPageAnimation}
+                path="/cards"
+                component={CardsPage}
+              />
+              <AnimatedRoute
+                getRouteAnimation={getTopPageAnimation}
+                path="/stats"
+                component={StatsPage}
+              />
+              <AnimatedRoute
+                getRouteAnimation={getTopPageAnimation}
+                path="/settings"
+                component={SettingsPage}
+              />
+              <AnimatedRoute
+                getRouteAnimation={getTopPageAnimation}
+                path="/glossary"
+                component={GlossaryPage}
+              />
+              <AnimatedRoute
+                exact={true}
+                getRouteAnimation={getCardPageAnimation}
+                path="/glossary/card/:id"
+                component={CardPage}
+              />
+            </Content>
+            <BottomNavigation />
             <AnimatedRoute
               exact={true}
               getRouteAnimation={getCardPageAnimation}
               path="/glossary/new"
               component={NewCardPage}
             />
-            <AnimatedRoute
-              exact={true}
-              getRouteAnimation={getCardPageAnimation}
-              path="/glossary/card/:id"
-              component={CardPage}
-            />
-          </Content>
-          <BottomNavigation />
-        </Root>
-      </BrowserRouter>
+          </Root>
+        </BrowserRouter>
+      </>
     )
   }
 }

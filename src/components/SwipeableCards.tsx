@@ -1,5 +1,6 @@
 import * as React from "react"
-import styled, { css } from "react-emotion"
+import { keyframes, css } from "@emotion/core"
+import styled from "@emotion/styled"
 import { TimelineMax, TweenMax, Linear, Power3, Ease } from "gsap"
 
 import Card from "./Card"

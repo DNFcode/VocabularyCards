@@ -1,7 +1,7 @@
 import * as React from "react"
-import styled, { css } from "react-emotion"
+import { keyframes, css } from "@emotion/core"
+import styled from "@emotion/styled"
 
-import AnimatedSeachIcon from "./AnimatedSearchIcon"
 import SearchIcon from "../icons/search.svg"
 import CrossIcon from "../icons/cross.svg"
 import { DarkerBackgroundColor } from "../theme"
@@ -65,7 +65,7 @@ export default class Search extends React.Component<Props, State> {
 
     return (
       <Root className={this.props.className}>
-        <AnimatedSeachIcon searchActive={!!search} className={iconClass} />
+        {/* <AnimatedSeachIcon searchActive={!!search} className={iconClass} /> */}
         <SearchInput
           type="text"
           placeholder="Search for cards"

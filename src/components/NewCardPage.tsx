@@ -1,5 +1,6 @@
 import * as React from "react"
-import styled, { css } from "react-emotion"
+import { keyframes, css } from "@emotion/core"
+import styled from "@emotion/styled"
 import { withRouter, RouteComponentProps } from "react-router"
 
 import TopNavigation from "./TopNavigaton"
@@ -10,6 +11,9 @@ import { getUid } from "../utils"
 
 const Root = styled("div")`
   height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 200;
   background: white;
   display: flex;
   flex-direction: column;
@@ -76,7 +80,7 @@ class NewCardPage extends React.Component<Props> {
           </span>
         </TopNavigation>
         <CardForm
-          className={newCardFormClass}
+          css={newCardFormClass}
           ref={this.formRef}
           onSubmit={this.createCard}
           initialValues={{

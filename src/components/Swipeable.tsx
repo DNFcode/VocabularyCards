@@ -1,8 +1,8 @@
 import * as React from "react"
-import styled, { css } from "react-emotion"
+import { keyframes, css } from "@emotion/core"
+import styled from "@emotion/styled"
 
 import BackLink from "./BackLink"
-import AnimatedSeachIcon from "./AnimatedSearchIcon"
 import ArrowLeftIcon from "../icons/arrow-left.svg"
 import CheckIcon from "../icons/check.svg"
 
@@ -107,7 +107,7 @@ export default class Swipeable extends React.Component<Props> {
 
   render() {
     return (
-      <Root className={this.props.className} innerRef={this.rootRef}>
+      <Root className={this.props.className} ref={this.rootRef}>
         {this.props.children}
       </Root>
     )

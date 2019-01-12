@@ -1,9 +1,9 @@
 import * as React from "react"
-import styled, { css } from "react-emotion"
+import { keyframes, css } from "@emotion/core"
+import styled from "@emotion/styled"
 
 import { PrimaryColor } from "../theme"
 import BackLink from "./BackLink"
-import AnimatedSeachIcon from "./AnimatedSearchIcon"
 import ArrowLeftIcon from "../icons/arrow-left.svg"
 import CheckIcon from "../icons/check.svg"
 
@@ -23,7 +23,6 @@ const Root =
   background-color: ${({ color }) => color || PrimaryColor};
   color: white;
   align-items: center;
-  box-shadow: 0 -2px 10px 2px #06060661;
   position: relative;
 `
 

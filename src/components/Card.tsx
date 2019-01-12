@@ -1,5 +1,5 @@
 import React, { SFC, Component, CSSProperties } from "react"
-import styled from "react-emotion"
+import styled from "@emotion/styled"
 import { Children } from "react"
 
 const Root = styled("div")`
@@ -70,7 +70,7 @@ export type Props = {
 class Card extends Component<Props> {
   render() {
     return (
-      <Root innerRef={this.props.cardRef} className={this.props.className}>
+      <Root ref={this.props.cardRef} className={this.props.className}>
         <CardHeader>
           <CardHeaderText>{this.props.title}</CardHeaderText>
         </CardHeader>

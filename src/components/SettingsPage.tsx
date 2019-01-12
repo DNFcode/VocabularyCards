@@ -1,5 +1,6 @@
 import * as React from "react"
-import styled, { keyframes } from "react-emotion"
+import { keyframes, css } from "@emotion/core"
+import styled from "@emotion/styled"
 
 const Root = styled("div")`
   height: 100%;

@@ -1,5 +1,6 @@
 import * as React from "react"
-import styled, { css, keyframes } from "react-emotion"
+import { keyframes, css, ClassNames } from "@emotion/core"
+import styled from "@emotion/styled"
 import { NavLink } from "react-router-dom"
 
 type NavIconProps = {
@@ -75,10 +76,18 @@ const activeLinkClass = css`
 `
 
 const NavIcon: React.SFC<NavIconProps> = ({ to, title, Icon }) => (
-  <NavLink to={to} className={linkClass} activeClassName={activeLinkClass}>
-    <Icon className={iconClass} />
-    <div>{title}</div>
-  </NavLink>
+  <ClassNames>
+    {({ css }) => (
+      <NavLink
+        to={to}
+        className={css(linkClass)}
+        activeClassName={css(activeLinkClass)}
+      >
+        <Icon className={css(iconClass)} />
+        <div>{title}</div>
+      </NavLink>
+    )}
+  </ClassNames>
 )
 
 export default NavIcon
