@@ -1,7 +1,16 @@
-import * as React from "react"
-import styled from "react-emotion"
+import React, {
+  createRef,
+  useLayoutEffect,
+  forwardRef,
+  useImperativeMethods,
+} from "react"
+import styled from "@emotion/styled"
 
 type Props = React.TextareaHTMLAttributes<HTMLTextAreaElement>
+
+export type AdjustibleTextareaMethods = {
+  focus: () => void
+}
 
 const Textarea = styled("textarea")`
   outline: none;
@@ -11,54 +20,38 @@ const Textarea = styled("textarea")`
 /**
  * Textarea which will grow and shrink depending on its content
  */
-export default class AdjustibleTextarea extends React.Component<Props> {
-  textareaRef: React.RefObject<HTMLTextAreaElement>
+function AdjustibleTextarea(
+  props: Props,
+  ref: React.Ref<AdjustibleTextareaMethods>
+) {
+  const { rows, value, ...restProps } = props
+  const textareaRef = createRef<HTMLTextAreaElement>()
 
-  constructor(props: Props) {
-    super(props)
-    this.textareaRef = React.createRef()
+  useImperativeMethods(ref, () => ({
+    focus: () => {
+      textareaRef.current && textareaRef.current.focus()
+    },
+  }))
 
-    this.resizeTextarea = this.resizeTextarea.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  resizeTextarea() {
-    const textarea = this.textareaRef.current
-    if (textarea) {
-      // reset height to 0 to get actual scrollHeight of content
-      textarea.style.height = "0px"
-      if (textarea.clientHeight !== textarea.scrollHeight) {
-        textarea.style.height = `${textarea.scrollHeight}px`
+  useLayoutEffect(
+    () => {
+      const textarea = textareaRef.current
+      if (textarea) {
+        // reset height to 0 to get actual scrollHeight of content
+        textarea.style.height = "0px"
+        if (textarea.clientHeight !== textarea.scrollHeight) {
+          textarea.style.height = `${textarea.scrollHeight}px`
+        }
       }
-    }
-  }
+    },
+    [value]
+  )
 
-  componentDidMount() {
-    // this.resizeTextarea()
-  }
-
-  componentDidUpdate() {
-    this.resizeTextarea()
-  }
-
-  handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-    if (this.props.onChange) {
-      this.props.onChange(event)
-    }
-    // resize in case if value is not controlled by onChange()
-    this.resizeTextarea()
-  }
-
-  render() {
-    const { rows, onChange, ...restProps } = this.props
-
-    return (
-      <Textarea
-        {...restProps}
-        innerRef={this.textareaRef}
-        onChange={this.handleChange}
-        rows={1}
-      />
-    )
-  }
+  return <Textarea {...restProps} value={value} ref={textareaRef} rows={1} />
 }
+
+const forwarded = forwardRef<AdjustibleTextareaMethods, Props>(
+  AdjustibleTextarea
+)
+
+export { forwarded as AdjustibleTextarea }
