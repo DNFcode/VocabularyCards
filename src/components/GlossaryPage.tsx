@@ -6,7 +6,7 @@ import GlossaryCards from "./GlossaryCards"
 import { keyframes } from "emotion"
 import { Link } from "react-router-dom"
 import { observer } from "mobx-react"
-import { AppStore, StoreConsumer, withStore } from "../store"
+import { AppStore, withStore } from "../store"
 import { LightBackgroundColor, TextLightColor } from "../theme"
 import { ButtonGroup } from "./ButtonGroup"
 

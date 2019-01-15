@@ -14,9 +14,10 @@ import CardsPage from "./components/CardsPage"
 import StatsPage from "./components/StatsPage"
 import SettingsPage from "./components/SettingsPage"
 import GlossaryPage from "./components/GlossaryPage"
-import NewCardPage from "./components/NewCardPage"
-import CardPage from "./components/CardPage"
 import AnimatedRoute from "./components/AnimatedRoute"
+import { NewCardDialog } from "./components/NewCardDialog"
+import { EditCardDialog } from "./components/EditCardDialog"
+import { StoreContext, AppStore } from "./store"
 
 const globalCss = css`
   body {
@@ -61,9 +62,13 @@ const BottomNavigation = styled(Navigation)`
   z-index: 100;
 `
 
-export default class App extends React.Component {
+export default class App extends React.Component<{}, AppStore> {
+  static contextType = StoreContext
+
   // move routes setup to routes.js
   render() {
+    const a = this.context
+
     return (
       <>
         <Global styles={globalCss} />
@@ -90,19 +95,30 @@ export default class App extends React.Component {
                 path="/glossary"
                 component={GlossaryPage}
               />
-              <AnimatedRoute
-                exact={true}
-                getRouteAnimation={getCardPageAnimation}
-                path="/glossary/card/:id"
-                component={CardPage}
-              />
             </Content>
             <BottomNavigation />
             <AnimatedRoute
               exact={true}
               getRouteAnimation={getCardPageAnimation}
+              path="/glossary/card/:id"
+              children={({ match, history }) => {
+                const card = this.context.cards.find(
+                  (card: any) => card.id === match.params.id
+                )
+
+                if (card) {
+                  return <EditCardDialog card={card} />
+                }
+
+                history.goBack()
+                return null
+              }}
+            />
+            <AnimatedRoute
+              exact={true}
+              getRouteAnimation={getCardPageAnimation}
               path="/glossary/new"
-              component={NewCardPage}
+              component={NewCardDialog}
             />
           </Root>
         </BrowserRouter>

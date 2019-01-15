@@ -25,6 +25,27 @@ const opacityAnimation = keyframes`
   }
 `
 
+const popupScale = keyframes`
+0% {
+  opacity: 0;
+  transform: scale(0.8)
+}
+
+100% {
+  opacity: 1;
+  transform: scale(1)
+}
+`
+
+const shadowOpacity = keyframes`
+0% {
+  opacity: 0;
+}
+
+100% {
+  opacity: 1;
+}`
+
 const transparent = css({
   opacity: 0,
 })
@@ -41,12 +62,20 @@ const topFadeOut = css({
   animation: `${opacityAnimation} reverse 0ms ease-in`,
 })
 
-const fadeIn = css({
-  animation: `${opacityAnimation} 0.27s 50ms backwards ease-out`,
+const popupIn = css({
+  animation: `${popupScale} 0.2s 50ms backwards ease-out`,
 })
 
-const fadeOut = css({
-  animation: `${opacityAnimation} reverse 0.27s 50ms ease-in`,
+const popupOut = css({
+  animation: `${popupScale} reverse 0.2s 50ms ease-in`,
+})
+
+const shadowIn = css({
+  animation: `${shadowOpacity} 0.2s 50ms backwards`,
+})
+
+const shadowOut = css({
+  animation: `${shadowOpacity} reverse 0.2s 50ms`,
 })
 
 // const slideFromRight = css`
@@ -58,18 +87,22 @@ const fadeOut = css({
 // `
 
 const Shadow = styled("div")`
-  background: gray;
+  background: lightgray;
   opacity: 0;
   will-change: opacity;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
 `
 
 export const getCardPageAnimation = (page: any, css: any) => [
   <CSSTransition
     classNames={{
-      enterActive: css(fadeIn),
-      exitActive: css(fadeOut),
+      enterActive: css(shadowIn),
+      exitActive: css(shadowOut),
     }}
-    timeout={400}
+    timeout={10000}
     addEndListener={(node, done) => {
       node.addEventListener("animationend", done, false)
     }}
@@ -78,10 +111,10 @@ export const getCardPageAnimation = (page: any, css: any) => [
   </CSSTransition>,
   <CSSTransition
     classNames={{
-      enterActive: css(fadeIn),
-      exitActive: css(fadeOut),
+      enterActive: css(popupIn),
+      exitActive: css(popupOut),
     }}
-    timeout={400}
+    timeout={10000}
     addEndListener={(node, done) => {
       node.addEventListener("animationend", done, false)
     }}

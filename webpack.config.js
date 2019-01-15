@@ -44,9 +44,7 @@ module.exports = {
             useBabel: true,
             babelOptions: {
               babelrc: false,
-              plugins: devMode
-                ? ["emotion", "react-hot-loader/babel"]
-                : ["emotion"],
+              plugins: devMode ? ["react-hot-loader/babel"] : [],
             },
             babelCore: "@babel/core",
           },

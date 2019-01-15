@@ -1,28 +1,26 @@
-import * as React from "react"
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  FormEvent,
+  ChangeEvent,
+} from "react"
 import styled from "@emotion/styled"
-import { Form, Field } from "react-final-form"
 
 import {
   BorderColor,
   TextColor,
   TextLightColor,
   DarkerBackgroundColor,
-  PrimaryColor,
 } from "../theme"
 import {
   AdjustibleTextarea,
   AdjustibleTextareaMethods,
 } from "./AdjustibleTextarea"
 
-type FormFields = {
+export type CardFormFields = {
   title: string
   description: string
-}
-
-type Props = {
-  className?: string
-  initialValues: FormFields
-  onSubmit: (values: object) => void
 }
 
 const TitleContainer = styled("div")({
@@ -37,6 +35,8 @@ const TitleContainer = styled("div")({
 
 const StyledForm = styled("form")({
   padding: "0 10px",
+  display: "flex",
+  flexDirection: "column",
 })
 
 const TitleTextarea = styled(AdjustibleTextarea)`
@@ -72,84 +72,94 @@ const PopupButtons = styled("div")({
   width: "100%",
 })
 
-const CancelButton = styled("button")({
+const FormButton = styled("button")({
   border: 0,
   fontSize: 16,
   borderTop: `1px solid ${BorderColor}`,
   background: DarkerBackgroundColor,
+  textTransform: "uppercase",
+  height: 56,
+  width: "50%",
+  outline: 0,
+})
+
+const CancelButton = styled(FormButton)({
   borderRight: `1px solid ${BorderColor}`,
-  textTransform: "uppercase",
-  height: 56,
-  width: "50%",
 })
 
-const ActionButton = styled("button")({
-  border: 0,
-  fontSize: 16,
-  borderTop: `1px solid ${BorderColor}`,
-  background: DarkerBackgroundColor,
-  color: PrimaryColor,
-  textTransform: "uppercase",
-  height: 56,
-  width: "50%",
-})
+export function CardForm(props: {
+  initialValues: CardFormFields
+  className?: string
+  onSubmit?: (values: CardFormFields) => void
+  onCancel?: () => void
+}) {
+  const [title, setTitle] = useState(props.initialValues.title)
+  const [description, setDescription] = useState(
+    props.initialValues.description
+  )
+  const titleRef = useRef<AdjustibleTextareaMethods>(null)
+  const descriptionRef = useRef<HTMLTextAreaElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
 
-class CardForm extends React.Component<Props> {
-  formRef = React.createRef<HTMLFormElement>()
-  titleRef = React.createRef<AdjustibleTextareaMethods>()
-
-  submit() {
-    const form = this.formRef.current
-    if (form) {
-      form.dispatchEvent(new Event("submit", { cancelable: true }))
-    }
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    props.onSubmit &&
+      title &&
+      description &&
+      props.onSubmit({
+        title,
+        description,
+      })
   }
 
-  componentDidMount() {
+  // shouldn't be here
+  useEffect(() => {
     setTimeout(() => {
-      this.titleRef.current && this.titleRef.current.focus()
+      if (titleRef.current) {
+        titleRef.current.focus()
+      }
     }, 300)
-  }
+  }, [])
 
-  render() {
-    // consider submitting a PR to final-form about generic Form class
-    return (
-      <Form
-        initialValues={this.props.initialValues}
-        onSubmit={this.props.onSubmit}
-        render={({ handleSubmit }) => (
-          <StyledForm
-            ref={this.formRef}
-            onSubmit={handleSubmit}
-            className={this.props.className}
-          >
-            <TitleContainer>
-              <Field
-                name="title"
-                render={({ input }) => (
-                  <TitleTextarea
-                    {...input}
-                    ref={this.titleRef}
-                    placeholder="Something to learn"
-                  />
-                )}
-              />
-            </TitleContainer>
-            <Field
-              name="description"
-              render={({ input }) => (
-                <DescriptionTextarea {...input} placeholder="Description" />
-              )}
-            />
-            <PopupButtons>
-              <CancelButton>Cancel</CancelButton>
-              <ActionButton>Add</ActionButton>
-            </PopupButtons>
-          </StyledForm>
-        )}
+  return (
+    <StyledForm
+      ref={formRef}
+      onSubmit={handleSubmit}
+      className={props.className}
+    >
+      <TitleContainer>
+        <TitleTextarea
+          ref={titleRef}
+          value={title}
+          placeholder="Something to learn"
+          onChange={event => setTitle(event.target.value)}
+          onKeyPress={event => {
+            if (event.key === "Enter") {
+              event.preventDefault()
+              descriptionRef.current && descriptionRef.current.focus()
+            }
+          }}
+        />
+      </TitleContainer>
+      <DescriptionTextarea
+        ref={descriptionRef}
+        value={description}
+        placeholder="Description"
+        onChange={event => setDescription(event.target.value)}
+        onKeyPress={event => {
+          if (event.key === "Enter") {
+            event.preventDefault()
+            formRef.current &&
+              formRef.current.dispatchEvent(new Event("submit"))
+          }
+        }}
       />
-    )
-  }
+      <PopupButtons>
+        <CancelButton onClick={props.onCancel} type="button">
+          Cancel
+        </CancelButton>
+        <FormButton type="submit">Add</FormButton>
+      </PopupButtons>
+    </StyledForm>
+  )
 }
-
-export default CardForm

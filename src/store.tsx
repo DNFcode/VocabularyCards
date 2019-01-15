@@ -31,10 +31,10 @@ export class AppStore {
 }
 
 const store = new AppStore()
-const { Provider, Consumer } = React.createContext(store)
+const StoreContext = React.createContext(store)
 
 const StoreProvider = (props: { children?: React.ReactNode }) => (
-  <Provider value={store}>{props.children}</Provider>
+  <StoreContext.Provider value={store}>{props.children}</StoreContext.Provider>
 )
 
 function withStore<P extends { store: AppStore }>(
@@ -42,9 +42,11 @@ function withStore<P extends { store: AppStore }>(
 ) {
   return function ComponentWithStore(props: P) {
     return (
-      <Consumer>{store => <Component {...props} store={store} />}</Consumer>
+      <StoreContext.Consumer>
+        {store => <Component {...props} store={store} />}
+      </StoreContext.Consumer>
     )
   }
 }
 
-export { StoreProvider, withStore, Consumer as StoreConsumer }
+export { StoreProvider, withStore, StoreContext }
