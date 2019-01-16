@@ -41,7 +41,6 @@
     "@types/webpack-env": "1.13.6",
     "awesome-typescript-loader": "5.2.1",
     "babel-core": "6.26.0",
-    "fsevents": "^1.2.4",
     "gh-pages": "^1.1.0",
     "offline-plugin": "^5.0.6",
     "prettier": "1.11.1",
