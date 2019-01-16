@@ -43,6 +43,7 @@
     "babel-core": "6.26.0",
     "fsevents": "^1.2.4",
     "gh-pages": "^1.1.0",
+    "offline-plugin": "^5.0.6",
     "prettier": "1.11.1",
     "react-hot-loader": "4.6.3",
     "source-map-loader": "0.2.3",

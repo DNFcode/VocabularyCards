@@ -1,23 +1,14 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
+import * as OfflinePluginRuntime from "offline-plugin/runtime"
 
 import { AppContainer } from "react-hot-loader"
 import App from "./App"
 import { StoreProvider } from "./store"
 
-// if ("serviceWorker" in navigator) {
-//   navigator.serviceWorker
-//     .register("service-worker.js")
-//     .then(function(registration) {
-//       console.log(
-//         "Hooray. Registration successful, scope is:",
-//         registration.scope
-//       )
-//     })
-//     .catch(function(err) {
-//       console.log("Whoops. Service worker registration failed, error:", err)
-//     })
-// }
+if (process.env.NODE_ENV === "production") {
+  OfflinePluginRuntime.install()
+}
 
 const render = (Component: typeof App) => {
   React
