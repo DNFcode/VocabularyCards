@@ -71,11 +71,11 @@ const popupOut = css({
 })
 
 const shadowIn = css({
-  animation: `${shadowOpacity} 0.2s 50ms backwards`,
+  animation: `${shadowOpacity} 0.2s 50ms backwards ease-out`,
 })
 
 const shadowOut = css({
-  animation: `${shadowOpacity} reverse 0.2s 50ms`,
+  animation: `${shadowOpacity} reverse 0.2s 50ms ease-in`,
 })
 
 // const slideFromRight = css`
@@ -87,7 +87,7 @@ const shadowOut = css({
 // `
 
 const Shadow = styled("div")`
-  background: lightgray;
+  background: rgb(0, 0, 0, 0.25);
   opacity: 0;
   will-change: opacity;
   position: absolute;
