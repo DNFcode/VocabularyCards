@@ -20,7 +20,7 @@ class GlossaryPage extends React.Component<{ store: AppStore }> {
           <Filters
             buttons={[
               {
-                label: "Learned",
+                label: "Learn",
               },
               {
                 label: "All",
