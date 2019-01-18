@@ -18,6 +18,7 @@ import AnimatedRoute from "./components/AnimatedRoute"
 import { NewCardDialog } from "./components/NewCardDialog"
 import { EditCardDialog } from "./components/EditCardDialog"
 import { StoreContext, AppStore } from "./store"
+import { CardActionsModal } from "./components/CardActionsModal"
 
 const globalCss = css`
   body {
@@ -32,7 +33,7 @@ const Root = styled("div")`
   color: #404040;
   font-family: sans-serif;
   position: fixed;
-  overflow: scroll;
+  overflow: hidden;
   width: 100%;
   height: ${window.innerHeight}px;
   display: flex;
@@ -119,6 +120,17 @@ export default class App extends React.Component<{}, AppStore> {
               getRouteAnimation={getCardPageAnimation}
               path="/glossary/new"
               component={NewCardDialog}
+            />
+            <Route
+              exact={true}
+              path="/glossary/actions/:id"
+              children={({ match, history }) => (
+                <CardActionsModal
+                  shown={!!match}
+                  cardId={match ? match.params.id : ""}
+                  onClose={history.goBack}
+                />
+              )}
             />
           </Root>
         </BrowserRouter>

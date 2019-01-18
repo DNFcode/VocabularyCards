@@ -70,7 +70,7 @@ export default class GlossaryCards extends React.Component<Props> {
     return (
       <Root className={this.props.className}>
         {this.props.cards.map(({ id, title, description }) => (
-          <Card to={`/glossary/card/${id}`} key={id}>
+          <Card to={`/glossary/actions/${id}`} key={id}>
             <CardTop>
               <Dot />
               <CardTitle>{title}</CardTitle>
