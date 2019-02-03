@@ -1,20 +1,42 @@
-// import React, { useContext, useState, useEffect } from "react"
+import React, { useState, useEffect, useRef, ReactNode } from "react"
 
-// type AnimatedComponentProps = {
-//   onAnimationEnd: () => void
-//   state: "mount" | "unmount"
-// }
+/*
+Element should be animated when it's mounted
+Element should be given a chance to animate on dismount
+Element should be just rendered if it's just mounted
+*/
 
-// export function Animator(props: {
-//   onMount?: boolean
-//   in: boolean
-//   children: (props: AnimatedComponentProps) => React.ReactNode
-// }) {
-//   const [state, setState] = useState("mount")
+export type AnimatedComponentProps = {
+  onTransitionEnd: () => void
+  state: AnimationState
+}
 
-//   if (props.in) {
-//     return props.children({})
-//   }
+export type AnimationState = "in" | "rendered" | "out"
 
-//   return props.children({})
-// }
+export function Animator(props: {
+  shown: boolean
+  render(props: AnimatedComponentProps): JSX.Element
+}) {
+  const firstRender = useRef(true)
+  const [isRendered, setIsRendered] = useState(false)
+
+  useEffect(() => {
+    firstRender.current = false
+    if (props.shown && !isRendered) {
+      setIsRendered(true)
+    }
+  })
+
+  function onTransitionEnd() {
+    setIsRendered(props.shown)
+  }
+
+  if (!isRendered && !props.shown) {
+    return null
+  }
+
+  return props.render({
+    state: props.shown ? (firstRender.current ? "rendered" : "in") : "out",
+    onTransitionEnd,
+  })
+}

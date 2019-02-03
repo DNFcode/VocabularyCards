@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import styled from "@emotion/styled"
+import { Spring, config, animated, interpolate } from "react-spring"
 
 import { StoreContext } from "../store"
 import {
@@ -12,6 +13,7 @@ import {
 import PencilIcon from "../icons/bx-pencil.svg"
 import TrashIcon from "../icons/bx-trash.svg"
 import BulbIcon from "../icons/bx-bulb.svg"
+import { AnimationState } from "./Animator"
 
 const Root = styled("div")<{ shown: boolean }>(({ shown }) => ({
   position: "absolute",
@@ -21,23 +23,23 @@ const Root = styled("div")<{ shown: boolean }>(({ shown }) => ({
   pointerEvents: shown ? "all" : "none",
 }))
 
-const Shadow = styled("div")<{ shown: boolean }>(({ shown }) => ({
-  background: "rgb(0,0,0, 0.25)",
-  height: "100%",
-  width: "100%",
-  opacity: shown ? 1 : 0,
-  transition: "opacity 150ms ease-out",
-}))
+const Shadow = animated(
+  styled("div")({
+    background: "rgba(0,0,0, 0.25)",
+    height: "100%",
+    width: "100%",
+  })
+)
 
-const Actions = styled("div")<{ shown: boolean }>(({ shown }) => ({
-  background: LightBackgroundColor,
-  position: "absolute",
-  bottom: 0,
-  width: "100%",
-  transform: `translateY(${shown ? "0%" : "120%"})`,
-  transition: "transform 150ms ease-out",
-  boxShadow: "0 0 6px rgba(0, 0, 0, 0.25)",
-}))
+const Actions = animated(
+  styled("div")({
+    background: LightBackgroundColor,
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    boxShadow: "0 0 6px rgba(0, 0, 0, 0.25)",
+  })
+)
 
 const Action = styled("div")<{ color: string }>(({ color }) => ({
   padding: 20,
@@ -62,37 +64,64 @@ const ActionText = styled("div")({
 })
 
 export function CardActionsModal(props: {
-  shown: boolean
+  animationState: AnimationState
+  onTransitionEnd: () => void
   cardId: string
   onClose: () => void
 }) {
   const store = useContext(StoreContext)
-
-  useEffect(() => {})
+  const rootRef = useRef<HTMLDivElement>(null)
+  const shown =
+    props.animationState === "in" || props.animationState === "rendered"
 
   return (
-    <Root shown={props.shown}>
-      <Shadow shown={props.shown} onClick={props.onClose} />
-      <Actions shown={props.shown}>
-        <Action color={TextColor}>
-          <ActionIcon>
-            <PencilIcon />
-          </ActionIcon>
-          <ActionText>Edit card</ActionText>
-        </Action>
-        <Action color={DangerColor}>
-          <ActionIcon>
-            <TrashIcon />
-          </ActionIcon>
-          <ActionText>Remove card</ActionText>
-        </Action>
-        <Action color={SecondaryColor}>
-          <ActionIcon>
-            <BulbIcon />
-          </ActionIcon>
-          <ActionText>Mark as learned</ActionText>
-        </Action>
-      </Actions>
+    <Root shown={shown} ref={rootRef}>
+      <Spring
+        native
+        config={{ tension: 250, friction: 22, mass: 0.5 }}
+        onRest={props.onTransitionEnd}
+        from={{ opacity: 0 }}
+        to={{
+          opacity: shown ? 1 : 0,
+        }}
+      >
+        {style => <Shadow style={style} onClick={props.onClose} />}
+      </Spring>
+      <Spring
+        native
+        config={{ tension: 250, friction: 22, mass: 0.5 }}
+        from={{ y: 120 }}
+        to={{
+          y: shown ? 0 : 120,
+        }}
+      >
+        {({ y }) => (
+          <Actions
+            style={{
+              transform: interpolate([y], y => `translateY(${y}%)`),
+            }}
+          >
+            <Action color={TextColor}>
+              <ActionIcon>
+                <PencilIcon />
+              </ActionIcon>
+              <ActionText>Edit card</ActionText>
+            </Action>
+            <Action color={DangerColor}>
+              <ActionIcon>
+                <TrashIcon />
+              </ActionIcon>
+              <ActionText>Remove card</ActionText>
+            </Action>
+            <Action color={SecondaryColor}>
+              <ActionIcon>
+                <BulbIcon />
+              </ActionIcon>
+              <ActionText>Mark as learned</ActionText>
+            </Action>
+          </Actions>
+        )}
+      </Spring>
     </Root>
   )
 }

@@ -19,6 +19,7 @@ import { NewCardDialog } from "./components/NewCardDialog"
 import { EditCardDialog } from "./components/EditCardDialog"
 import { StoreContext, AppStore } from "./store"
 import { CardActionsModal } from "./components/CardActionsModal"
+import { Animator } from "./components/Animator"
 
 const globalCss = css`
   body {
@@ -42,7 +43,7 @@ const Root = styled("div")`
 
 const Content = styled("div")`
   height: 100%;
-  overflow: scroll;
+  overflow: auto;
   box-sizing: border-box;
   flex-grow: 1;
   position: relative;
@@ -125,10 +126,16 @@ export default class App extends React.Component<{}, AppStore> {
               exact={true}
               path="/glossary/actions/:id"
               children={({ match, history }) => (
-                <CardActionsModal
+                <Animator
                   shown={!!match}
-                  cardId={match ? match.params.id : ""}
-                  onClose={history.goBack}
+                  render={({ state, onTransitionEnd }) => (
+                    <CardActionsModal
+                      animationState={state}
+                      onTransitionEnd={onTransitionEnd}
+                      cardId={match ? match.params.id : ""}
+                      onClose={history.goBack}
+                    />
+                  )}
                 />
               )}
             />

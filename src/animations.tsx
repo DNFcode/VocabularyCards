@@ -28,12 +28,12 @@ const opacityAnimation = keyframes`
 const popupScale = keyframes`
 0% {
   opacity: 0;
-  transform: scale(0.8)
+  transform: scale(0.5) translateY(30%)
 }
 
 100% {
   opacity: 1;
-  transform: scale(1)
+  transform: scale(1) translateY(0%)
 }
 `
 
@@ -59,7 +59,7 @@ const topFadeIn = css({
 })
 
 const topFadeOut = css({
-  animation: `${opacityAnimation} reverse 0ms ease-in`,
+  display: "none !important",
 })
 
 const popupIn = css({
@@ -87,7 +87,7 @@ const shadowOut = css({
 // `
 
 const Shadow = styled("div")`
-  background: rgb(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.25);
   opacity: 0;
   will-change: opacity;
   position: absolute;
@@ -128,6 +128,7 @@ export const getTopPageAnimation = (page: any, css: any) => [
     classNames={{
       enter: css(transparent),
       enterActive: css(topFadeIn),
+      exit: css(topFadeOut),
       exitActive: css(topFadeOut),
     }}
     timeout={10000}
