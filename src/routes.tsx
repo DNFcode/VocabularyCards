@@ -2,7 +2,8 @@
 // import StatsPage from "./components/StatsPage"
 // import SettingsPage from "./components/SettingsPage"
 // import GlossaryPage from "./components/GlossaryPage"
-// import NewCardPage from "./components/NewCardPage"
+// import { NewCardDialog } from "./components/NewCardDialog"
+// import { EditCardDialog } from "./components/EditCardDialog"
 
 // export enum Position {
 //   Top,
@@ -10,9 +11,11 @@
 // }
 
 // class View {
-//   constructor(private url: string, private view: React.ReactNode, public children?: {[route: string]: View}) {
-
-//   }
+//   constructor(
+//     private url: string,
+//     private view: React.ReactNode,
+//     public children?: { [route: string]: View }
+//   ) {}
 // }
 
 // class Routing {
@@ -39,11 +42,19 @@
 //   {
 //     path: "/glossary",
 //     component: GlossaryPage,
-//     children: {
+//     children: [
+//       {
+//         path: "/glossary/actions/:id",
+//         component: EditCardDialog,
+//       },
 //       {
 //         path: "/glossary/new",
-//         component: NewCardPage,
+//         component: NewCardDialog,
 //       },
-//     }
+//       {
+//         path: "/glossary/card/:id",
+//         component: EditCardDialog,
+//       },
+//     ],
 //   },
 // ]

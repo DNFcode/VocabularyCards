@@ -134,6 +134,7 @@ export default class App extends React.Component<{}, AppStore> {
                       onTransitionEnd={onTransitionEnd}
                       cardId={match ? match.params.id : ""}
                       onClose={history.goBack}
+                      history={history}
                     />
                   )}
                 />

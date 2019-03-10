@@ -19,6 +19,7 @@ export function Animator(props: {
 }) {
   const firstRender = useRef(true)
   const [isRendered, setIsRendered] = useState(false)
+  const savedRender = useRef(props.render)
 
   useEffect(() => {
     firstRender.current = false
@@ -35,7 +36,11 @@ export function Animator(props: {
     return null
   }
 
-  return props.render({
+  if (props.shown) {
+    savedRender.current = props.render
+  }
+
+  return savedRender.current({
     state: props.shown ? (firstRender.current ? "rendered" : "in") : "out",
     onTransitionEnd,
   })

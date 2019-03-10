@@ -14,6 +14,8 @@ import PencilIcon from "../icons/bx-pencil.svg"
 import TrashIcon from "../icons/bx-trash.svg"
 import BulbIcon from "../icons/bx-bulb.svg"
 import { AnimationState } from "./Animator"
+import { Link } from "react-router-dom"
+import { History } from "history"
 
 const Root = styled("div")<{ shown: boolean }>(({ shown }) => ({
   position: "absolute",
@@ -68,6 +70,7 @@ export function CardActionsModal(props: {
   onTransitionEnd: () => void
   cardId: string
   onClose: () => void
+  history: History<any>
 }) {
   const store = useContext(StoreContext)
   const rootRef = useRef<HTMLDivElement>(null)
@@ -101,13 +104,24 @@ export function CardActionsModal(props: {
               transform: interpolate([y], y => `translateY(${y}%)`),
             }}
           >
-            <Action color={TextColor}>
+            <Action
+              color={TextColor}
+              onClick={() =>
+                props.history.replace(`/glossary/card/${props.cardId}`)
+              }
+            >
               <ActionIcon>
                 <PencilIcon />
               </ActionIcon>
               <ActionText>Edit card</ActionText>
             </Action>
-            <Action color={DangerColor}>
+            <Action
+              color={DangerColor}
+              onClick={() => {
+                store.removeCard(props.cardId)
+                props.onClose()
+              }}
+            >
               <ActionIcon>
                 <TrashIcon />
               </ActionIcon>
