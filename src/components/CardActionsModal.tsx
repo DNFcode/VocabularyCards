@@ -9,12 +9,12 @@ import {
   DangerColor,
   SecondaryColor,
   BorderColor,
+  DarkerBackgroundColor,
 } from "../theme"
 import PencilIcon from "../icons/bx-pencil.svg"
 import TrashIcon from "../icons/bx-trash.svg"
 import BulbIcon from "../icons/bx-bulb.svg"
 import { AnimationState } from "./Animator"
-import { Link } from "react-router-dom"
 import { History } from "history"
 
 const Root = styled("div")<{ shown: boolean }>(({ shown }) => ({
@@ -43,15 +43,24 @@ const Actions = animated(
   })
 )
 
-const Action = styled("div")<{ color: string }>(({ color }) => ({
+const Action = styled("button")<{ color: string }>(({ color }) => ({
   padding: 20,
   display: "flex",
   alignItems: "center",
   color,
+  border: 0,
   borderBottom: `1px solid ${BorderColor}`,
+  background: LightBackgroundColor,
+  width: "100%",
+  "-webkit-tap-highlight-color": "transparent",
+  outline: "none",
 
   ":last-of-type": {
     border: 0,
+  },
+
+  ":active": {
+    background: DarkerBackgroundColor,
   },
 }))
 
