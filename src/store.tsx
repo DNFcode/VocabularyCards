@@ -1,4 +1,3 @@
-import * as React from "react"
 import { observable, action } from "mobx"
 
 import { getCards, addCard, updateCard, removeCard } from "./indexeddb"
@@ -37,7 +36,11 @@ const StoreProvider = (props: { children?: React.ReactNode }) => (
   <StoreContext.Provider value={store}>{props.children}</StoreContext.Provider>
 )
 
-function withStore<P extends { store: AppStore }>(
+export function useStore() {
+  return React.useContext(StoreContext)
+}
+
+export function withStore<P extends { store: AppStore }>(
   Component: React.ComponentClass<P, any>
 ) {
   return function ComponentWithStore(props: P) {
@@ -48,5 +51,3 @@ function withStore<P extends { store: AppStore }>(
     )
   }
 }
-
-export { StoreProvider, withStore, StoreContext }

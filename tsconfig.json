@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "lib": ["es6", "es2015", "es2017", "dom"],
+    "outDir": "./compiled/",
+    "rootDir": "./src/",
     "allowUnreachableCode": false,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "lib": ["es6", "es2015", "es2017", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
     "noImplicitAny": true,
@@ -18,19 +20,7 @@
     "strictNullChecks": true,
     "strict": true,
     "pretty": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "experimentalDecorators": true,
-    "target": "es2016",
-    "baseUrl": ".",
-    "paths": {
-      "redux": ["typings/redux/index.d.ts"],
-      "react-redux": ["typings/react-redux.d.ts"]
-    },
-    "plugins": [
-      {
-        "name": "typescript-styled-plugin"
-      }
-    ]
+    "target": "es2016"
   },
-  "exclude": ["build", "node_modules"]
+  "exclude": ["build", "node_modules", "compiled"]
 }

@@ -4,4 +4,5 @@ build/*
 !build/manifest.json
 !build/icon.png
 node_modules
+compiled
 .vscode
