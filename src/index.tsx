@@ -1,33 +1,20 @@
-import * as React from "react"
-import * as ReactDOM from "react-dom"
+import { h, render } from "preact"
 import * as OfflinePluginRuntime from "offline-plugin/runtime"
-
-import { AppContainer } from "react-hot-loader"
-import App from "./App"
-import { StoreProvider } from "./store"
 
 if (process.env.NODE_ENV === "production") {
   OfflinePluginRuntime.install()
 }
 
-const render = (Component: typeof App) => {
-  React
-  ReactDOM.render(
-    <AppContainer>
-      <StoreProvider>
-        <Component />
-      </StoreProvider>
-    </AppContainer>,
-    document.getElementById("react")
-  )
+let root = document.getElementById("react") || undefined
+function init() {
+  let App = require("./App").default
+  render(<App />, document.body, root)
 }
 
-render(App)
-
-// Webpack Hot Module Replacement API
+// in development, set up HMR:
 if (module.hot) {
-  module.hot.accept("./App", () => {
-    const NextApp = require("./App").default
-    render(App)
-  })
+  //require('preact/devtools');   // turn this on if you want to enable React DevTools!
+  module.hot.accept("./App", () => requestAnimationFrame(init))
 }
+
+init()

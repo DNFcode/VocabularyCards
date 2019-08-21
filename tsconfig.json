@@ -20,7 +20,8 @@
     "strictNullChecks": true,
     "strict": true,
     "pretty": true,
-    "target": "es2016"
+    "target": "es2016",
+    "experimentalDecorators": true
   },
   "exclude": ["build", "node_modules", "compiled"]
 }

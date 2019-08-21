@@ -33,11 +33,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.svg$/,
-        use: "svgr/webpack",
-      },
-
-      {
         test: /\.tsx?$/,
         use: {
           loader: "awesome-typescript-loader",

@@ -1,43 +1,37 @@
-import idb, { UpgradeDB } from "idb"
-import { Card } from "src/types"
+import { openDB, DBSchema } from "idb"
+import { Card } from "./types"
 
-const name = "VocabularyCards"
-const version = 1
-
-function migrations(upgradeDB: UpgradeDB) {
-  if (upgradeDB.oldVersion < 1) {
-    upgradeDB.createObjectStore("cards", { keyPath: "id" })
+interface IDBSchema extends DBSchema {
+  cards: {
+    key: string
+    value: Card
   }
 }
 
-const idbPromise = idb.open(name, version, migrations)
+const DB_NAME = "lexia"
+const DB_VERSION = 1
+
+const idbPromise = openDB<IDBSchema>(DB_NAME, DB_VERSION, {
+  upgrade: (db, oldVersion, newVersion) => {
+    if (newVersion === 1) {
+      db.createObjectStore("cards", { keyPath: "id" })
+    }
+    // continue any migrations here
+  },
+})
 
 export async function addCard(card: Card) {
-  const db = await idbPromise
-  const tx = db.transaction("cards", "readwrite")
-  tx.objectStore<Card>("cards").add(card)
-
-  return tx.complete
+  return (await idbPromise).add("cards", card)
 }
 
 export async function updateCard(card: Card) {
-  const db = await idbPromise
-  const tx = db.transaction("cards", "readwrite")
-  tx.objectStore<Card>("cards").put(card)
-
-  return tx.complete
+  return (await idbPromise).put("cards", card)
 }
 
 export async function removeCard(id: string) {
-  const db = await idbPromise
-  const tx = db.transaction("cards", "readwrite")
-  tx.objectStore<Card>("cards").delete(id)
-
-  return tx.complete
+  return (await idbPromise).delete("cards", id)
 }
 
 export async function getCards() {
-  const db = await idbPromise
-  const tx = db.transaction("cards", "readwrite")
-  return tx.objectStore<Card>("cards").getAll()
+  return (await idbPromise).getAll("cards")
 }

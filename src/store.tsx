@@ -1,53 +1,66 @@
-import { observable, action } from "mobx"
-
-import { getCards, addCard, updateCard, removeCard } from "./indexeddb"
+import { useState, useEffect, useMemo } from "preact/hooks"
 import { Card } from "./types"
+import { getCards } from "./indexeddb"
 
-export class AppStore {
-  constructor() {
-    getCards().then(cards => {
-      this.cards = cards
-    })
+function createStore<StoreT>(defaultStore?: StoreT) {
+  let subscribers: Array<(store: StoreT) => void> = []
+  let store: StoreT | undefined = defaultStore
+
+  function initStore(newStore: StoreT) {
+    store = newStore
   }
 
-  @observable cards: Card[] = []
-
-  @action
-  addCard = async (card: Card) => {
-    await addCard(card)
-    this.cards = [...this.cards, card]
+  function setStore(newStore: Partial<StoreT>) {
+    if (store) {
+      store = { ...store, ...newStore }
+      subscribers.forEach(subscriber => {
+        subscriber(store!)
+      })
+      return
+    }
+    throw Error("Store wasn't initialised for interaction.")
   }
 
-  updateCard = async (card: Card) => {
-    await updateCard(card)
-    this.cards = this.cards.map(c => (c.id !== card.id ? c : card))
+  function getStore() {
+    if (store) {
+      return store
+    }
+    throw Error("Store wasn't initialised for interaction.")
   }
 
-  removeCard = async (id: string) => {
-    await removeCard(id)
-    this.cards = this.cards.filter(c => c.id !== id)
+  // function useStore<T = StoreT>(
+  //   getter?: (store: StoreT) => T[] = store => {
+  //     return [store]
+  //   }
+  // ): T[] {}
+
+  // getter seems useless so far
+  type UseStore<T = StoreT> = (getter?: (store: StoreT) => T[]) => T[]
+  const useStore: UseStore = getter => {
+    if (!store) {
+      throw Error("Store wasn't initialised for interaction.")
+    }
+    const [value, setValue] = useState(getter(store))
+    useEffect(() => {
+      subscribers.push(store => {
+        setValue(getter(store))
+      })
+      return () => {
+        subscribers = subscribers.filter(setter => setter !== setter)
+      }
+    }, [])
+    return value
+  }
+
+  return {
+    initStore,
+    setStore,
+    getStore,
+    useStore,
   }
 }
 
-const store = new AppStore()
-const StoreContext = React.createContext(store)
-
-const StoreProvider = (props: { children?: React.ReactNode }) => (
-  <StoreContext.Provider value={store}>{props.children}</StoreContext.Provider>
-)
-
-export function useStore() {
-  return React.useContext(StoreContext)
-}
-
-export function withStore<P extends { store: AppStore }>(
-  Component: React.ComponentClass<P, any>
-) {
-  return function ComponentWithStore(props: P) {
-    return (
-      <StoreContext.Consumer>
-        {store => <Component {...props} store={store} />}
-      </StoreContext.Consumer>
-    )
-  }
-}
+const cardsStore = createStore<{ cards: Card[] }>()
+;(async () => {
+  cardsStore.initStore({ cards: await getCards() })
+})()
