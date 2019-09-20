@@ -23,12 +23,17 @@ const inputCss = css({
   outline: "none",
 })
 
+const iconCss = css({
+  flexShrink: 0,
+  color: DISABLED_TEXT,
+})
+
 export const GlossarySearch: FunctionalComponent<{ value?: string }> = ({
   value,
 }) => {
   return (
     <div className={rootCss}>
-      <SearchIcon color={DISABLED_TEXT} />
+      <SearchIcon className={iconCss} />
       <input className={inputCss} placeholder="Search cards" value={value} />
     </div>
   )
