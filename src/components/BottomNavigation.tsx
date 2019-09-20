@@ -1,5 +1,5 @@
 import { h, FunctionalComponent } from "preact"
-import { css } from "emotion"
+import { css, cx } from "emotion"
 import {
   SUCCESS_COLOR,
   SUCCESS_COLOR_RGBA,
@@ -53,9 +53,11 @@ const createButtonCss = css({
   },
 })
 
-export const BottomNavigation = () => {
+export const BottomNavigation: FunctionalComponent<{
+  className?: string
+}> = ({ className }) => {
   return (
-    <div className={rootCss}>
+    <div className={cx(rootCss, className)}>
       <BottomPanel className={bottomPanelCss} />
       <div className={buttonBlockCss}>
         <button className={createButtonCss}>
